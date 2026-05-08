@@ -16,6 +16,7 @@ import TeacherDashboard from "@/pages/teacher/dashboard";
 import SetupPage from "@/pages/teacher/setup";
 import LessonTypesPage from "@/pages/teacher/settings/lesson-types";
 import LocationsPage from "@/pages/teacher/settings/locations";
+import StudentsPage from "@/pages/teacher/students";
 import StudentHome from "@/pages/student/home";
 
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
               <Route element={<RoleGuard role="teacher" />}>
                 <Route element={<SetupGuard />}>
                   <Route path="/dashboard" element={<TeacherDashboard />} />
+                  <Route path="/students" element={<StudentsPage />} />
                   <Route path="/lesson-types" element={<LessonTypesPage />} />
                   <Route path="/settings/locations" element={<LocationsPage />} />
                 </Route>
