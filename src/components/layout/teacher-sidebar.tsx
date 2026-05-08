@@ -6,6 +6,7 @@ import {
   BookOpen,
   Settings,
   ListMusic,
+  MapPin,
   LogOut,
 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
@@ -17,6 +18,7 @@ const navItems = [
   { to: "/availability", label: "Availability", icon: Calendar },
   { to: "/lessons", label: "Lessons", icon: BookOpen },
   { to: "/lesson-types", label: "Lesson Types", icon: ListMusic },
+  { to: "/settings/locations", label: "Locations", icon: MapPin },
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 
