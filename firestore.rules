@@ -1,0 +1,165 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: check if user is authenticated
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    // Helper: check user role from custom claims
+    function hasRole(role) {
+      return isAuth() && request.auth.token.role == role;
+    }
+
+    // Helper: check if user is the document owner
+    function isOwner(userId) {
+      return isAuth() && request.auth.uid == userId;
+    }
+
+    // ─── Users ───
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if false; // Created by Cloud Function only
+      allow update: if isOwner(userId)
+        && request.resource.data.role == resource.data.role; // Cannot change role
+      allow delete: if false; // Soft delete via Cloud Function
+    }
+
+    // ─── Teacher Profiles ───
+    match /teacherProfiles/{teacherId} {
+      allow read: if true; // Public profiles
+      allow create: if false; // Created by Cloud Function
+      allow update: if isOwner(teacherId);
+      allow delete: if false;
+    }
+
+    // ─── Invites ───
+    match /invites/{inviteId} {
+      allow read: if true; // Tokens validated during registration
+      allow create: if hasRole('teacher');
+      allow update: if false; // Consumed by Cloud Function
+      allow delete: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+    }
+
+    // ─── Teacher-Student Relationships ───
+    match /teacherStudents/{docId} {
+      allow read: if isAuth()
+        && (resource.data.teacherId == request.auth.uid
+            || resource.data.studentId == request.auth.uid);
+      allow create: if false; // Created by Cloud Function
+      allow update: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // ─── Lesson Types ───
+    match /lessonTypes/{docId} {
+      allow read: if true; // Students need to see for booking
+      allow create: if hasRole('teacher');
+      allow update: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+      allow delete: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+    }
+
+    // ─── Availability ───
+    match /availability/{docId} {
+      allow read: if true; // Students need to see for booking
+      allow create: if hasRole('teacher');
+      allow update: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+      allow delete: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+    }
+
+    // ─── Lessons ───
+    match /lessons/{lessonId} {
+      allow read: if isAuth()
+        && (resource.data.teacherId == request.auth.uid
+            || resource.data.studentId == request.auth.uid);
+      allow create: if false; // Created by Cloud Function (bookLesson)
+      allow update: if false; // Updated by Cloud Function
+      allow delete: if false;
+    }
+
+    // ─── Group Classes ───
+    match /groupClasses/{docId} {
+      allow read: if true; // Students need to see for enrollment
+      allow create: if hasRole('teacher');
+      allow update: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // ─── Subscription Plans ───
+    match /subscriptionPlans/{docId} {
+      allow read: if true; // Students need to see for purchasing
+      allow create: if hasRole('teacher');
+      allow update: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+      allow delete: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+    }
+
+    // ─── Credit Packs ───
+    match /creditPacks/{docId} {
+      allow read: if true; // Students need to see for purchasing
+      allow create: if hasRole('teacher');
+      allow update: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+      allow delete: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+    }
+
+    // ─── Student Credits ───
+    match /studentCredits/{docId} {
+      allow read: if isAuth()
+        && (resource.data.teacherId == request.auth.uid
+            || resource.data.studentId == request.auth.uid);
+      allow write: if false; // Managed by Cloud Functions only
+    }
+
+    // ─── Transactions ───
+    match /transactions/{docId} {
+      allow read: if isAuth()
+        && (resource.data.teacherId == request.auth.uid
+            || resource.data.studentId == request.auth.uid);
+      allow write: if false; // Append-only via Cloud Functions
+    }
+
+    // ─── Practice Items ───
+    match /practiceItems/{docId} {
+      allow read: if isAuth()
+        && (resource.data.teacherId == request.auth.uid
+            || resource.data.studentId == request.auth.uid);
+      allow create: if hasRole('teacher');
+      allow update: if isAuth()
+        && (resource.data.teacherId == request.auth.uid
+            || resource.data.studentId == request.auth.uid);
+      allow delete: if hasRole('teacher')
+        && resource.data.teacherId == request.auth.uid;
+    }
+
+    // ─── FCM Tokens ───
+    match /fcmTokens/{docId} {
+      allow read: if isAuth()
+        && resource.data.userId == request.auth.uid;
+      allow create: if isAuth();
+      allow update: if isAuth()
+        && resource.data.userId == request.auth.uid;
+      allow delete: if isAuth()
+        && resource.data.userId == request.auth.uid;
+    }
+
+    // ─── Pending Registrations (temporary, for invite flow) ───
+    match /pendingRegistrations/{userId} {
+      allow read: if false; // Cloud Function only
+      allow create: if true; // Created before auth, validated by Cloud Function
+      allow update: if false;
+      allow delete: if false; // Cleaned up by Cloud Function
+    }
+  }
+}
