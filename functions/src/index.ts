@@ -14,3 +14,5 @@ export { bookLesson } from "./scheduling/book-lesson";
 export { cancelLesson } from "./scheduling/cancel-lesson";
 export { completeLesson } from "./scheduling/complete-lesson";
 export { markNoShow } from "./scheduling/mark-no-show";
+export { createStripeConnectLink } from "./stripe/create-connect-link";
+export { checkStripeStatus } from "./stripe/check-stripe-status";
