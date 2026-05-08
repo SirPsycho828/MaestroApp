@@ -41,6 +41,7 @@ interface AvailabilityGridProps {
   submitting: boolean;
   timezone: string;
   onTimezoneChange?: () => void;
+  submitLabel?: string;
 }
 
 export function AvailabilityGrid({
@@ -50,6 +51,7 @@ export function AvailabilityGrid({
   onBack,
   submitting,
   timezone,
+  submitLabel,
 }: AvailabilityGridProps) {
   const timeSlots = useMemo(generateTimeSlots, []);
   const [error, setError] = useState("");
@@ -214,7 +216,7 @@ export function AvailabilityGrid({
           disabled={submitting}
           className="bg-accent-500 hover:bg-accent-600"
         >
-          {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Finish"}
+          {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : (submitLabel ?? "Finish")}
         </Button>
       </div>
     </div>
