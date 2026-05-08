@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthProvider } from "@/contexts/auth-context";
 import { AuthGuard } from "@/components/auth/auth-guard";
 import { RoleGuard } from "@/components/auth/role-guard";
+import { SetupGuard } from "@/components/setup/setup-guard";
 import { AppShell } from "@/components/layout/app-shell";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -10,6 +11,7 @@ import LoginPage from "@/pages/login";
 import RegisterTeacherPage from "@/pages/register-teacher";
 import NotFoundPage from "@/pages/not-found";
 import TeacherDashboard from "@/pages/teacher/dashboard";
+import SetupPage from "@/pages/teacher/setup";
 import StudentHome from "@/pages/student/home";
 
 export default function App() {
@@ -22,15 +24,23 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register/teacher" element={<RegisterTeacherPage />} />
 
-          {/* Authenticated routes with app shell */}
+          {/* Authenticated routes */}
           <Route element={<AuthGuard />}>
+            {/* Setup wizard (no app shell, no setup guard) */}
+            <Route element={<RoleGuard role="teacher" />}>
+              <Route path="/setup" element={<SetupPage />} />
+            </Route>
+
+            {/* Main app with shell (requires setup complete) */}
             <Route element={<AppShell />}>
-              {/* Teacher-only routes */}
+              {/* Teacher routes */}
               <Route element={<RoleGuard role="teacher" />}>
-                <Route path="/dashboard" element={<TeacherDashboard />} />
+                <Route element={<SetupGuard />}>
+                  <Route path="/dashboard" element={<TeacherDashboard />} />
+                </Route>
               </Route>
 
-              {/* Student-only routes */}
+              {/* Student routes */}
               <Route element={<RoleGuard role="student" />}>
                 <Route path="/home" element={<StudentHome />} />
               </Route>
