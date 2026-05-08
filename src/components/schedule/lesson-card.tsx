@@ -35,14 +35,14 @@ export function LessonCard({
     <button
       onClick={onClick}
       className={cn(
-        "w-full rounded-lg border border-brand-200 bg-white px-4 py-3 text-left transition-colors",
-        onClick && "hover:border-brand-300 cursor-pointer"
+        "w-full rounded-lg border border-border bg-card px-4 py-3 text-left transition-colors",
+        onClick && "hover:border-border/80 cursor-pointer"
       )}
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-medium text-brand-800">{studentName}</p>
-          <p className="text-sm text-brand-500">
+          <p className="font-medium text-foreground">{studentName}</p>
+          <p className="text-sm text-muted-foreground">
             {formatTime(startTime)} - {formatTime(endTime)} &middot; {lessonTypeName} &middot;{" "}
             {formatDuration(durationMinutes)}
           </p>

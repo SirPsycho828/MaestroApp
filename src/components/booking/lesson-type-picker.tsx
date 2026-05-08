@@ -17,7 +17,7 @@ interface LessonTypePickerProps {
 export function LessonTypePicker({ lessonTypes, selected, onSelect }: LessonTypePickerProps) {
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-brand-700">Choose a Lesson Type</h2>
+      <h2 className="text-lg font-semibold">Choose a Lesson Type</h2>
       <div className="grid gap-3 sm:grid-cols-2">
         {lessonTypes.map((lt) => (
           <Card
@@ -25,14 +25,14 @@ export function LessonTypePicker({ lessonTypes, selected, onSelect }: LessonType
             className={cn(
               "cursor-pointer transition-all",
               selected === lt.id
-                ? "border-accent-500 ring-2 ring-accent-200"
-                : "hover:border-brand-300"
+                ? "border-primary ring-2 ring-primary/20"
+                : "hover:border-border"
             )}
             onClick={() => onSelect(lt.id)}
           >
             <CardContent className="p-4">
-              <p className="font-semibold text-brand-800">{lt.data.name}</p>
-              <div className="mt-2 flex items-center gap-3 text-sm text-brand-500">
+              <p className="font-semibold text-foreground">{lt.data.name}</p>
+              <div className="mt-2 flex items-center gap-3 text-sm text-muted-foreground">
                 <span>{formatDuration(lt.data.durationMinutes)}</span>
                 <span>{formatPrice(lt.data.priceAmount)}</span>
                 <span>
@@ -40,7 +40,7 @@ export function LessonTypePicker({ lessonTypes, selected, onSelect }: LessonType
                 </span>
               </div>
               {lt.data.description && (
-                <p className="mt-2 text-sm text-brand-400">{lt.data.description}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{lt.data.description}</p>
               )}
             </CardContent>
           </Card>

@@ -55,7 +55,7 @@ export function LocationForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-brand-200 bg-white p-5">
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-border bg-card p-5">
       <div className="space-y-2">
         <Label htmlFor="loc-name">Location name</Label>
         <Input
@@ -77,8 +77,8 @@ export function LocationForm({
             onClick={() => setType("in-person")}
             className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
               type === "in-person"
-                ? "border-accent-500 bg-accent-50 text-accent-500"
-                : "border-brand-200 text-brand-500 hover:border-brand-300"
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-border text-muted-foreground hover:border-border"
             }`}
           >
             In-Person
@@ -88,8 +88,8 @@ export function LocationForm({
             onClick={() => setType("virtual")}
             className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
               type === "virtual"
-                ? "border-accent-500 bg-accent-50 text-accent-500"
-                : "border-brand-200 text-brand-500 hover:border-brand-300"
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-border text-muted-foreground hover:border-border"
             }`}
           >
             Virtual
@@ -115,7 +115,7 @@ export function LocationForm({
       {type === "virtual" && (
         <div className="space-y-2">
           <Label htmlFor="loc-link">
-            Meeting link <span className="text-brand-400">(optional)</span>
+            Meeting link <span className="text-muted-foreground">(optional)</span>
           </Label>
           <Input
             id="loc-link"
@@ -137,7 +137,6 @@ export function LocationForm({
         <Button
           type="submit"
           disabled={submitting}
-          className="bg-accent-500 hover:bg-accent-600"
         >
           {submitting ? (
             <Loader2 className="h-4 w-4 animate-spin" />

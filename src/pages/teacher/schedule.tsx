@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { FadeIn } from "@/components/ui/animated";
 import {
   collection,
   query,
@@ -51,62 +52,69 @@ export default function SchedulePage() {
   const [lessons, setLessons] = useState<LessonWithMeta[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const { start, end, label } = getWeekBounds(weekOffset);
+  const { label } = getWeekBounds(weekOffset);
 
   const loadLessons = useCallback(async () => {
     if (!firebaseUser) return;
     setLoading(true);
 
-    const snap = await getDocs(
-      query(
-        collection(db, "lessons"),
-        where("teacherId", "==", firebaseUser.uid),
-        where("scheduledAt", ">=", Timestamp.fromDate(start)),
-        where("scheduledAt", "<=", Timestamp.fromDate(end))
-      )
-    );
+    try {
+      const { start, end } = getWeekBounds(weekOffset);
+      const snap = await getDocs(
+        query(
+          collection(db, "lessons"),
+          where("teacherId", "==", firebaseUser.uid),
+          where("scheduledAt", ">=", Timestamp.fromDate(start)),
+          where("scheduledAt", "<=", Timestamp.fromDate(end))
+        )
+      );
 
-    // Fetch student names and lesson type names
-    const studentCache = new Map<string, string>();
-    const ltCache = new Map<string, string>();
+      // Fetch student names and lesson type names
+      const studentCache = new Map<string, string>();
+      const ltCache = new Map<string, string>();
 
-    const items: LessonWithMeta[] = [];
+      const items: LessonWithMeta[] = [];
 
-    for (const d of snap.docs) {
-      const data = d.data() as Lesson;
+      for (const d of snap.docs) {
+        const data = d.data() as Lesson;
 
-      // Student name
-      if (!studentCache.has(data.studentId)) {
-        const userSnap = await getDoc(doc(db, "users", data.studentId));
-        studentCache.set(data.studentId, userSnap.data()?.displayName ?? "Student");
+        // Student name
+        if (!studentCache.has(data.studentId)) {
+          const userSnap = await getDoc(doc(db, "users", data.studentId));
+          studentCache.set(data.studentId, userSnap.data()?.displayName ?? "Student");
+        }
+
+        // Lesson type name
+        if (!ltCache.has(data.lessonTypeId)) {
+          const ltSnap = await getDoc(doc(db, "lessonTypes", data.lessonTypeId));
+          ltCache.set(data.lessonTypeId, ltSnap.data()?.name ?? "Lesson");
+        }
+
+        // Convert scheduledAt to local time
+        const at = data.scheduledAt.toDate();
+        const localDate = at.toISOString().split("T")[0];
+        const localTime = `${String(at.getHours()).padStart(2, "0")}:${String(at.getMinutes()).padStart(2, "0")}`;
+
+        items.push({
+          id: d.id,
+          data,
+          studentName: studentCache.get(data.studentId)!,
+          lessonTypeName: ltCache.get(data.lessonTypeId)!,
+          localTime,
+          localDate,
+        });
       }
 
-      // Lesson type name
-      if (!ltCache.has(data.lessonTypeId)) {
-        const ltSnap = await getDoc(doc(db, "lessonTypes", data.lessonTypeId));
-        ltCache.set(data.lessonTypeId, ltSnap.data()?.name ?? "Lesson");
-      }
-
-      // Convert scheduledAt to local time
-      const at = data.scheduledAt.toDate();
-      const localDate = at.toISOString().split("T")[0];
-      const localTime = `${String(at.getHours()).padStart(2, "0")}:${String(at.getMinutes()).padStart(2, "0")}`;
-
-      items.push({
-        id: d.id,
-        data,
-        studentName: studentCache.get(data.studentId)!,
-        lessonTypeName: ltCache.get(data.lessonTypeId)!,
-        localTime,
-        localDate,
-      });
+      // Sort by scheduledAt
+      items.sort((a, b) => a.data.scheduledAt.toMillis() - b.data.scheduledAt.toMillis());
+      setLessons(items);
+    } catch (err) {
+      console.error("Failed to load lessons:", err);
+      setLessons([]);
+    } finally {
+      setLoading(false);
     }
-
-    // Sort by scheduledAt
-    items.sort((a, b) => a.data.scheduledAt.toMillis() - b.data.scheduledAt.toMillis());
-    setLessons(items);
-    setLoading(false);
-  }, [firebaseUser, start, end]);
+  }, [firebaseUser, weekOffset]);
 
   useEffect(() => {
     loadLessons();
@@ -120,15 +128,16 @@ export default function SchedulePage() {
   }
 
   return (
+    <FadeIn>
     <div className="mx-auto max-w-3xl space-y-6 p-6">
-      <h1 className="text-2xl font-bold text-brand-800">Schedule</h1>
+      <h1 className="font-serif text-2xl font-bold">Schedule</h1>
 
       {/* Week navigation */}
       <div className="flex items-center justify-between">
         <Button variant="ghost" size="sm" onClick={() => setWeekOffset((w) => w - 1)}>
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <span className="text-sm font-medium text-brand-700">{label}</span>
+        <span className="text-sm font-medium text-foreground">{label}</span>
         <Button variant="ghost" size="sm" onClick={() => setWeekOffset((w) => w + 1)}>
           <ChevronRight className="h-4 w-4" />
         </Button>
@@ -136,15 +145,15 @@ export default function SchedulePage() {
 
       {loading ? (
         <div className="flex h-40 items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-accent-500" />
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       ) : lessons.length === 0 ? (
-        <p className="py-12 text-center text-brand-400">No lessons this week</p>
+        <p className="py-12 text-center text-muted-foreground">No lessons this week</p>
       ) : (
         <div className="space-y-6">
           {[...grouped.entries()].map(([date, dayLessons]) => (
             <div key={date}>
-              <h3 className="mb-2 text-sm font-semibold text-brand-500">
+              <h3 className="mb-2 text-sm font-semibold text-muted-foreground">
                 {formatLongDate(date)}
               </h3>
               <div className="space-y-2">
@@ -177,5 +186,6 @@ export default function SchedulePage() {
         </div>
       )}
     </div>
+    </FadeIn>
   );
 }

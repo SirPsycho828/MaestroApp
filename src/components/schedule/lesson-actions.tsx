@@ -52,7 +52,7 @@ export function LessonActions({
   };
 
   return (
-    <div className="mt-3 space-y-3 border-t border-brand-100 pt-3">
+    <div className="mt-3 space-y-3 border-t border-border pt-3">
       {isPast && (
         <div className="space-y-2">
           <Textarea

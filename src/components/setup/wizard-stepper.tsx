@@ -21,10 +21,10 @@ export function WizardStepper({ currentStep }: WizardStepperProps) {
               className={cn(
                 "flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium",
                 s.step < currentStep
-                  ? "bg-accent-500 text-white"
+                  ? "bg-primary text-primary-foreground"
                   : s.step === currentStep
-                    ? "bg-accent-500 text-white"
-                    : "bg-brand-200 text-brand-400"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground"
               )}
             >
               {s.step < currentStep ? (
@@ -36,7 +36,7 @@ export function WizardStepper({ currentStep }: WizardStepperProps) {
             <span
               className={cn(
                 "mt-1 text-xs font-medium",
-                s.step <= currentStep ? "text-accent-500" : "text-brand-400"
+                s.step <= currentStep ? "text-primary" : "text-muted-foreground"
               )}
             >
               {s.label}
@@ -46,7 +46,7 @@ export function WizardStepper({ currentStep }: WizardStepperProps) {
             <div
               className={cn(
                 "mx-2 mb-5 h-0.5 w-12 sm:w-20",
-                s.step < currentStep ? "bg-accent-500" : "bg-brand-200"
+                s.step < currentStep ? "bg-primary" : "bg-muted"
               )}
             />
           )}

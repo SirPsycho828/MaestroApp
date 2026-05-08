@@ -32,49 +32,49 @@ export function BookingConfirm({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-brand-700">Confirm Booking</h2>
+      <h2 className="text-lg font-semibold">Confirm Booking</h2>
 
       <Card>
         <CardContent className="space-y-3 p-5">
           <div className="flex justify-between">
-            <span className="text-brand-500">Lesson</span>
-            <span className="font-medium text-brand-800">{lessonType.name}</span>
+            <span className="text-muted-foreground">Lesson</span>
+            <span className="font-medium text-foreground">{lessonType.name}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-brand-500">Date</span>
-            <span className="font-medium text-brand-800">{formatLongDate(date)}</span>
+            <span className="text-muted-foreground">Date</span>
+            <span className="font-medium text-foreground">{formatLongDate(date)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-brand-500">Time</span>
-            <span className="font-medium text-brand-800">
+            <span className="text-muted-foreground">Time</span>
+            <span className="font-medium text-foreground">
               {formatTime(startTime)} - {formatTime(endTime)} ({formatTimezone(timezone)})
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-brand-500">Duration</span>
-            <span className="font-medium text-brand-800">
+            <span className="text-muted-foreground">Duration</span>
+            <span className="font-medium text-foreground">
               {formatDuration(lessonType.durationMinutes)}
             </span>
           </div>
 
-          <hr className="border-brand-200" />
+          <hr className="border-border" />
 
           <div className="flex justify-between">
-            <span className="text-brand-500">Credit cost</span>
-            <span className="font-medium text-brand-800">
+            <span className="text-muted-foreground">Credit cost</span>
+            <span className="font-medium text-foreground">
               {lessonType.creditCost} credit{lessonType.creditCost !== 1 ? "s" : ""}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-brand-500">Your balance</span>
-            <span className="font-medium text-brand-800">
+            <span className="text-muted-foreground">Your balance</span>
+            <span className="font-medium text-foreground">
               {creditBalance} credit{creditBalance !== 1 ? "s" : ""}
             </span>
           </div>
           {sufficient && (
             <div className="flex justify-between">
-              <span className="text-brand-500">After booking</span>
-              <span className="font-medium text-brand-800">
+              <span className="text-muted-foreground">After booking</span>
+              <span className="font-medium text-foreground">
                 {remaining} credit{remaining !== 1 ? "s" : ""}
               </span>
             </div>
@@ -96,7 +96,6 @@ export function BookingConfirm({
         <Button
           onClick={onConfirm}
           disabled={!sufficient || confirming}
-          className="bg-accent-500 hover:bg-accent-600"
         >
           {confirming ? <Loader2 className="h-4 w-4 animate-spin" /> : "Confirm Booking"}
         </Button>

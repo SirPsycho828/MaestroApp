@@ -19,6 +19,7 @@ import { Loader2, Calendar, XCircle } from "lucide-react";
 import { formatTime, formatLongDate, formatDuration, addMinutesToTime } from "@/lib/time-utils";
 import { toast } from "sonner";
 import type { Lesson } from "@/types";
+import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/animated";
 
 const functions = getFunctions(app);
 
@@ -151,119 +152,123 @@ export default function StudentHome() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-accent-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-8 p-6">
-      <h1 className="text-2xl font-bold text-brand-800">
-        Welcome{userDoc?.displayName ? `, ${userDoc.displayName}` : ""}
-      </h1>
+    <FadeIn>
+      <div className="mx-auto max-w-2xl space-y-8 p-6">
+        <h1 className="text-2xl font-bold font-serif">
+          Welcome{userDoc?.displayName ? `, ${userDoc.displayName}` : ""}
+        </h1>
 
-      {/* Teachers */}
-      <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-brand-700">Your Teachers</h2>
-        {teachers.length === 0 ? (
-          <p className="text-sm text-brand-400">No teachers yet</p>
-        ) : (
-          <div className="grid gap-3 sm:grid-cols-2">
-            {teachers.map((t) => (
-              <Card key={t.id}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium text-brand-800">{t.displayName}</span>
-                    {t.slug && (
-                      <Button asChild size="sm" className="bg-accent-500 hover:bg-accent-600">
-                        <Link to={`/book/${t.slug}`}>
-                          <Calendar className="mr-1 h-4 w-4" />
-                          Book
-                        </Link>
-                      </Button>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-2 mt-2">
-                    <span className={`text-sm font-semibold ${
-                      (creditBalances[t.id] ?? 0) === 0
-                        ? "text-red-600"
-                        : (creditBalances[t.id] ?? 0) <= 2
-                          ? "text-yellow-600"
-                          : "text-green-600"
-                    }`}>
-                      {creditBalances[t.id] ?? 0} credits
-                    </span>
-                    {(creditBalances[t.id] ?? 0) <= 2 && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="h-6 px-2 text-xs"
-                        onClick={() => navigate(`/credits/buy?teacher=${t.id}`)}
-                      >
-                        Buy Credits
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* Upcoming Lessons */}
-      <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-brand-700">Upcoming Lessons</h2>
-        {upcoming.length === 0 ? (
-          <p className="text-sm text-brand-400">No upcoming lessons</p>
-        ) : (
-          <div className="space-y-2">
-            {upcoming.map((lesson) => {
-              const at = lesson.data.scheduledAt.toDate();
-              const dateStr = at.toISOString().split("T")[0];
-              const time = `${String(at.getHours()).padStart(2, "0")}:${String(at.getMinutes()).padStart(2, "0")}`;
-              const endTimeStr = addMinutesToTime(time, lesson.data.durationMinutes);
-
-              return (
-                <Card key={lesson.id}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="font-medium text-brand-800">
-                          {lesson.lessonTypeName}
-                        </p>
-                        <p className="text-sm text-brand-500">
-                          {formatLongDate(dateStr)}
-                        </p>
-                        <p className="text-sm text-brand-500">
-                          {formatTime(time)} - {formatTime(endTimeStr)} &middot;{" "}
-                          {formatDuration(lesson.data.durationMinutes)}
-                        </p>
-                        <p className="text-sm text-brand-400">
-                          with {lesson.teacherName}
-                        </p>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleCancel(lesson.id)}
-                        disabled={cancelling === lesson.id}
-                        className="text-brand-400 hover:text-red-600"
-                      >
-                        {cancelling === lesson.id ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <XCircle className="h-4 w-4" />
+        {/* Teachers */}
+        <section className="space-y-3">
+          <h2 className="text-lg font-semibold">Your Teachers</h2>
+          {teachers.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No teachers yet</p>
+          ) : (
+            <StaggerContainer className="grid gap-3 sm:grid-cols-2">
+              {teachers.map((t) => (
+                <StaggerItem key={t.id}>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium text-foreground">{t.displayName}</span>
+                        {t.slug && (
+                          <Button asChild size="sm">
+                            <Link to={`/book/${t.slug}`}>
+                              <Calendar className="mr-1 h-4 w-4" />
+                              Book
+                            </Link>
+                          </Button>
                         )}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        )}
-      </section>
-    </div>
+                      </div>
+                      <div className="flex items-center gap-2 mt-2">
+                        <span className={`text-sm font-semibold ${
+                          (creditBalances[t.id] ?? 0) === 0
+                            ? "text-red-600"
+                            : (creditBalances[t.id] ?? 0) <= 2
+                              ? "text-yellow-600"
+                              : "text-green-600"
+                        }`}>
+                          {creditBalances[t.id] ?? 0} credits
+                        </span>
+                        {(creditBalances[t.id] ?? 0) <= 2 && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-6 px-2 text-xs"
+                            onClick={() => navigate(`/credits/buy?teacher=${t.id}`)}
+                          >
+                            Buy Credits
+                          </Button>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          )}
+        </section>
+
+        {/* Upcoming Lessons */}
+        <section className="space-y-3">
+          <h2 className="text-lg font-semibold">Upcoming Lessons</h2>
+          {upcoming.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No upcoming lessons</p>
+          ) : (
+            <div className="space-y-2">
+              {upcoming.map((lesson) => {
+                const at = lesson.data.scheduledAt.toDate();
+                const dateStr = at.toISOString().split("T")[0];
+                const time = `${String(at.getHours()).padStart(2, "0")}:${String(at.getMinutes()).padStart(2, "0")}`;
+                const endTimeStr = addMinutesToTime(time, lesson.data.durationMinutes);
+
+                return (
+                  <Card key={lesson.id}>
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <p className="font-medium text-foreground">
+                            {lesson.lessonTypeName}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {formatLongDate(dateStr)}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {formatTime(time)} - {formatTime(endTimeStr)} &middot;{" "}
+                            {formatDuration(lesson.data.durationMinutes)}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            with {lesson.teacherName}
+                          </p>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleCancel(lesson.id)}
+                          disabled={cancelling === lesson.id}
+                          className="text-muted-foreground/50 hover:text-red-600"
+                        >
+                          {cancelling === lesson.id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <XCircle className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </section>
+      </div>
+    </FadeIn>
   );
 }

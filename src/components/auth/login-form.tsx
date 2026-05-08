@@ -116,9 +116,9 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-full max-w-md border-brand-200">
+    <Card className="w-full max-w-md border-border/50 bg-card/80 backdrop-blur-xl">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Sign in to TuneFolio</CardTitle>
+        <CardTitle className="font-serif text-2xl">Sign in to TuneFolio</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <form onSubmit={handleEmailLogin} className="space-y-4">
@@ -144,11 +144,11 @@ export function LoginForm() {
               required
             />
           </div>
-          {error && <p className="text-sm text-error">{error}</p>}
+          {error && <p className="text-sm text-destructive">{error}</p>}
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-accent-500 hover:bg-accent-600"
+            className="w-full"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Sign in"}
           </Button>
@@ -156,10 +156,10 @@ export function LoginForm() {
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-brand-200" />
+            <span className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-2 text-brand-400">or</span>
+            <span className="bg-card px-2 text-muted-foreground">or</span>
           </div>
         </div>
 

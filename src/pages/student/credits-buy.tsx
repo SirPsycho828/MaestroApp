@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Loader2, ArrowLeft, CheckCircle } from "lucide-react";
 import type { SubscriptionPlan, CreditPack, StudentCredits } from "@/types";
+import { FadeIn } from "@/components/ui/animated";
 
 const functions = getFunctions(app);
 
@@ -144,120 +145,122 @@ export default function CreditsBuyPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => navigate("/credits")}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold text-brand-800">Buy Credits</h1>
-          <p className="text-sm text-muted-foreground">
-            {teacherName} &middot; Current balance: {balance} credits
-          </p>
+    <FadeIn>
+      <div className="space-y-6">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={() => navigate("/credits")}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold font-serif">Buy Credits</h1>
+            <p className="text-sm text-muted-foreground">
+              {teacherName} &middot; Current balance: {balance} credits
+            </p>
+          </div>
         </div>
-      </div>
 
-      {currentSubscription && (
-        <Card className="border-green-200 bg-green-50">
-          <CardContent className="flex items-center justify-between py-4">
-            <div className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-600" />
-              <span className="text-sm font-medium text-green-800">
-                You have an active subscription
-              </span>
+        {currentSubscription && (
+          <Card className="border-green-200 bg-green-50">
+            <CardContent className="flex items-center justify-between py-4">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-green-600" />
+                <span className="text-sm font-medium text-green-800">
+                  You have an active subscription
+                </span>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleManageSubscription}
+                disabled={purchasing === "manage"}
+              >
+                {purchasing === "manage" && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
+                Manage Subscription
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {plans.length > 0 && (
+          <section className="space-y-3">
+            <h2 className="text-lg font-semibold">Monthly Subscriptions</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {plans.map((plan) => (
+                <Card key={plan.id}>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">{plan.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div>
+                      <span className="text-2xl font-bold">
+                        ${(plan.priceAmount / 100).toFixed(2)}
+                      </span>
+                      <span className="text-sm text-muted-foreground">/month</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {plan.creditsPerMonth} credits per month
+                    </p>
+                    <Button
+                      className="w-full"
+                      onClick={() => handlePurchase("subscription", plan.id)}
+                      disabled={!!purchasing || currentSubscription}
+                    >
+                      {purchasing === plan.id && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      {currentSubscription ? "Already Subscribed" : "Subscribe"}
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={handleManageSubscription}
-              disabled={purchasing === "manage"}
-            >
-              {purchasing === "manage" && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
-              Manage Subscription
-            </Button>
-          </CardContent>
-        </Card>
-      )}
+          </section>
+        )}
 
-      {plans.length > 0 && (
-        <section className="space-y-3">
-          <h2 className="text-lg font-semibold text-brand-700">Monthly Subscriptions</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {plans.map((plan) => (
-              <Card key={plan.id}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base">{plan.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div>
-                    <span className="text-2xl font-bold">
-                      ${(plan.priceAmount / 100).toFixed(2)}
-                    </span>
-                    <span className="text-sm text-muted-foreground">/month</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    {plan.creditsPerMonth} credits per month
-                  </p>
-                  <Button
-                    className="w-full"
-                    onClick={() => handlePurchase("subscription", plan.id)}
-                    disabled={!!purchasing || currentSubscription}
-                  >
-                    {purchasing === plan.id && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    )}
-                    {currentSubscription ? "Already Subscribed" : "Subscribe"}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-      )}
+        {plans.length > 0 && packs.length > 0 && <Separator />}
 
-      {plans.length > 0 && packs.length > 0 && <Separator />}
+        {packs.length > 0 && (
+          <section className="space-y-3">
+            <h2 className="text-lg font-semibold">Credit Packs</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {packs.map((pack) => (
+                <Card key={pack.id}>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">{pack.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="text-2xl font-bold">
+                      ${(pack.priceAmount / 100).toFixed(2)}
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {pack.credits} credits
+                    </p>
+                    <Button
+                      className="w-full"
+                      variant="outline"
+                      onClick={() => handlePurchase("credit_pack", pack.id)}
+                      disabled={!!purchasing}
+                    >
+                      {purchasing === pack.id && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      Buy
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        )}
 
-      {packs.length > 0 && (
-        <section className="space-y-3">
-          <h2 className="text-lg font-semibold text-brand-700">Credit Packs</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {packs.map((pack) => (
-              <Card key={pack.id}>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base">{pack.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="text-2xl font-bold">
-                    ${(pack.priceAmount / 100).toFixed(2)}
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    {pack.credits} credits
-                  </p>
-                  <Button
-                    className="w-full"
-                    variant="outline"
-                    onClick={() => handlePurchase("credit_pack", pack.id)}
-                    disabled={!!purchasing}
-                  >
-                    {purchasing === pack.id && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    )}
-                    Buy
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {plans.length === 0 && packs.length === 0 && (
-        <Card className="text-center">
-          <CardContent className="py-12 text-muted-foreground">
-            This teacher hasn&apos;t set up pricing yet. Check back later.
-          </CardContent>
-        </Card>
-      )}
-    </div>
+        {plans.length === 0 && packs.length === 0 && (
+          <Card className="text-center">
+            <CardContent className="py-12 text-muted-foreground">
+              This teacher hasn&apos;t set up pricing yet. Check back later.
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </FadeIn>
   );
 }

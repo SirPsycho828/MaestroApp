@@ -13,6 +13,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, CheckCircle } from "lucide-react";
+import { ScaleIn } from "@/components/ui/animated";
 
 export default function CreditsSuccessPage() {
   const { firebaseUser } = useAuth();
@@ -63,42 +64,44 @@ export default function CreditsSuccessPage() {
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center p-4">
-      <Card className="w-full max-w-md text-center">
-        <CardHeader>
-          {status === "processing" ? (
-            <Loader2 className="mx-auto h-12 w-12 animate-spin text-accent-500" />
-          ) : (
-            <CheckCircle className="mx-auto h-12 w-12 text-green-500" />
-          )}
-          <CardTitle className="text-2xl">
-            {status === "processing" ? "Processing Payment..." : "Payment Successful!"}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {status === "processing" ? (
-            <p className="text-muted-foreground">
-              Your credits will appear shortly...
-            </p>
-          ) : (
-            <>
-              {balance !== null && (
-                <p className="text-lg text-muted-foreground">
-                  Your balance: <span className="font-bold text-brand-800">{balance} credits</span>
-                </p>
-              )}
+      <ScaleIn className="w-full max-w-md">
+        <Card className="text-center">
+          <CardHeader>
+            {status === "processing" ? (
+              <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary" />
+            ) : (
+              <CheckCircle className="mx-auto h-12 w-12 text-green-500" />
+            )}
+            <CardTitle className="text-2xl">
+              {status === "processing" ? "Processing Payment..." : "Payment Successful!"}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {status === "processing" ? (
               <p className="text-muted-foreground">
-                Credits have been added to your account.
+                Your credits will appear shortly...
               </p>
-            </>
-          )}
-          <div className="flex flex-col gap-2 pt-2">
-            <Button onClick={() => navigate("/home")}>Back to Home</Button>
-            <Button variant="outline" onClick={() => navigate("/credits")}>
-              View All Credits
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            ) : (
+              <>
+                {balance !== null && (
+                  <p className="text-lg text-muted-foreground">
+                    Your balance: <span className="font-bold text-foreground">{balance} credits</span>
+                  </p>
+                )}
+                <p className="text-muted-foreground">
+                  Credits have been added to your account.
+                </p>
+              </>
+            )}
+            <div className="flex flex-col gap-2 pt-2">
+              <Button onClick={() => navigate("/home")}>Back to Home</Button>
+              <Button variant="outline" onClick={() => navigate("/credits")}>
+                View All Credits
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </ScaleIn>
     </div>
   );
 }

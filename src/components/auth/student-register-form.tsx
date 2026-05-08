@@ -102,10 +102,10 @@ export function StudentRegisterForm({
   };
 
   return (
-    <Card className="w-full max-w-md border-brand-200">
+    <Card className="w-full max-w-md border-border/50 bg-card/80 backdrop-blur-xl">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Create your student account</CardTitle>
-        <p className="text-sm text-brand-400">
+        <CardTitle className="font-serif text-2xl">Create your student account</CardTitle>
+        <p className="text-sm text-muted-foreground">
           Join TuneFolio to manage your lessons
         </p>
       </CardHeader>
@@ -152,15 +152,15 @@ export function StudentRegisterForm({
               onChange={(e) => setTosAccepted(e.target.checked)}
               className="mt-0.5"
             />
-            <span className="text-brand-500">
+            <span className="text-foreground">
               I accept the Terms of Service and confirm I am 18 or older
             </span>
           </label>
-          {error && <p className="text-sm text-error">{error}</p>}
+          {error && <p className="text-sm text-destructive">{error}</p>}
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-accent-500 hover:bg-accent-600"
+            className="w-full"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create account"}
           </Button>
@@ -168,10 +168,10 @@ export function StudentRegisterForm({
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-brand-200" />
+            <span className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-2 text-brand-400">or</span>
+            <span className="bg-card px-2 text-muted-foreground">or</span>
           </div>
         </div>
 

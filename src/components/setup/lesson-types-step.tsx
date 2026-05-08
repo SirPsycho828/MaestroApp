@@ -66,15 +66,15 @@ export function LessonTypesStep({
   return (
     <div className="space-y-6">
       {lessonTypes.length === 0 && !showForm ? (
-        <div className="flex flex-col items-center rounded-xl border border-dashed border-brand-200 bg-white px-6 py-12 text-center">
-          <BookOpen className="h-8 w-8 text-brand-300" />
-          <p className="mt-3 font-semibold text-brand-700">No lesson types yet</p>
-          <p className="mt-1 text-sm text-brand-400">
+        <div className="flex flex-col items-center rounded-xl border border-dashed border-border bg-card px-6 py-12 text-center">
+          <BookOpen className="h-8 w-8 text-muted-foreground/50" />
+          <p className="mt-3 font-semibold text-foreground">No lesson types yet</p>
+          <p className="mt-1 text-sm text-muted-foreground">
             Add your first lesson type so students can book with you.
           </p>
           <Button
             onClick={() => setShowForm(true)}
-            className="mt-4 bg-accent-500 hover:bg-accent-600"
+            className="mt-4"
           >
             <Plus className="mr-2 h-4 w-4" />
             Add Lesson Type
@@ -119,7 +119,7 @@ export function LessonTypesStep({
         <Button
           variant="ghost"
           onClick={() => setShowForm(true)}
-          className="text-accent-500"
+          className="text-primary"
         >
           <Plus className="mr-2 h-4 w-4" />
           Add another
@@ -135,7 +135,6 @@ export function LessonTypesStep({
         <Button
           onClick={handleNext}
           disabled={submitting}
-          className="bg-accent-500 hover:bg-accent-600"
         >
           {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Next"}
         </Button>

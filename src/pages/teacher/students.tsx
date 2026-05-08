@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { FadeIn } from "@/components/ui/animated";
 import {
   collection,
   query,
@@ -68,15 +69,16 @@ export default function StudentsPage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-accent-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
+    <FadeIn>
     <div className="mx-auto max-w-4xl space-y-8 p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-brand-800">Students</h1>
+        <h1 className="font-serif text-2xl font-bold">Students</h1>
         <InviteDialog onInviteCreated={loadData} />
       </div>
 
@@ -84,5 +86,6 @@ export default function StudentsPage() {
 
       <InviteList invites={invites} onRevoked={loadData} />
     </div>
+    </FadeIn>
   );
 }

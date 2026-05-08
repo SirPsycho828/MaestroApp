@@ -18,6 +18,7 @@ import { OverrideList } from "@/components/availability/override-list";
 import { Button } from "@/components/ui/button";
 import { Loader2, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { FadeIn } from "@/components/ui/animated";
 import type { Availability } from "@/types";
 
 interface OverrideWithId {
@@ -201,65 +202,67 @@ export default function AvailabilityPage() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-accent-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 p-6">
-      <h1 className="text-2xl font-bold text-brand-800">Availability</h1>
+    <FadeIn>
+      <div className="mx-auto max-w-4xl space-y-8 p-6">
+        <h1 className="text-2xl font-bold font-serif">Availability</h1>
 
-      {/* Weekly Schedule */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-brand-700">Weekly Schedule</h2>
-          {isDirty && (
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-amber-600">Unsaved changes</span>
-              <Button variant="ghost" size="sm" onClick={handleDiscard}>
-                Discard
-              </Button>
-            </div>
-          )}
-        </div>
+        {/* Weekly Schedule */}
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Weekly Schedule</h2>
+            {isDirty && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-warning">Unsaved changes</span>
+                <Button variant="ghost" size="sm" onClick={handleDiscard}>
+                  Discard
+                </Button>
+              </div>
+            )}
+          </div>
 
-        <AvailabilityGrid
-          value={selectedSlots}
-          onChange={setSelectedSlots}
-          onSubmit={handleSave}
-          onBack={handleDiscard}
-          submitting={saving}
-          timezone={timezone}
-          submitLabel="Save Schedule"
-        />
-      </section>
-
-      {/* Overrides */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-brand-700">Upcoming Overrides</h2>
-          {!showOverrideForm && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowOverrideForm(true)}
-            >
-              <Plus className="mr-1 h-4 w-4" />
-              Add Override
-            </Button>
-          )}
-        </div>
-
-        {showOverrideForm && (
-          <OverrideForm
-            onSave={handleAddOverride}
-            onCancel={() => setShowOverrideForm(false)}
+          <AvailabilityGrid
+            value={selectedSlots}
+            onChange={setSelectedSlots}
+            onSubmit={handleSave}
+            onBack={handleDiscard}
+            submitting={saving}
+            timezone={timezone}
+            submitLabel="Save Schedule"
           />
-        )}
+        </section>
 
-        <OverrideList overrides={overrides} onDelete={handleDeleteOverride} />
-      </section>
-    </div>
+        {/* Overrides */}
+        <section className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Upcoming Overrides</h2>
+            {!showOverrideForm && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowOverrideForm(true)}
+              >
+                <Plus className="mr-1 h-4 w-4" />
+                Add Override
+              </Button>
+            )}
+          </div>
+
+          {showOverrideForm && (
+            <OverrideForm
+              onSave={handleAddOverride}
+              onCancel={() => setShowOverrideForm(false)}
+            />
+          )}
+
+          <OverrideList overrides={overrides} onDelete={handleDeleteOverride} />
+        </section>
+      </div>
+    </FadeIn>
   );
 }

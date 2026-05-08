@@ -65,13 +65,13 @@ export function InviteList({ invites, onRevoked }: InviteListProps) {
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-medium text-brand-500">
+      <h3 className="text-sm font-medium text-muted-foreground">
         Pending Invites ({invites.length})
       </h3>
-      <div className="rounded-lg border border-brand-200">
+      <div className="rounded-lg border border-border">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-brand-100 text-left text-brand-400">
+            <tr className="border-b border-border text-left text-muted-foreground/50">
               <th className="px-4 py-2 font-medium">Name</th>
               <th className="px-4 py-2 font-medium hidden sm:table-cell">Email</th>
               <th className="px-4 py-2 font-medium hidden md:table-cell">Sent</th>
@@ -81,14 +81,14 @@ export function InviteList({ invites, onRevoked }: InviteListProps) {
           </thead>
           <tbody>
             {invites.map((invite) => (
-              <tr key={invite.id} className="border-b border-brand-100 last:border-0">
-                <td className="px-4 py-3 font-medium text-brand-700">
+              <tr key={invite.id} className="border-b border-border last:border-0">
+                <td className="px-4 py-3 font-medium text-foreground">
                   {invite.data.studentName}
                 </td>
-                <td className="px-4 py-3 text-brand-500 hidden sm:table-cell">
+                <td className="px-4 py-3 text-muted-foreground hidden sm:table-cell">
                   {invite.data.studentEmail}
                 </td>
-                <td className="px-4 py-3 text-brand-400 hidden md:table-cell">
+                <td className="px-4 py-3 text-muted-foreground/50 hidden md:table-cell">
                   {timeAgo(invite.data.createdAt.toDate())}
                 </td>
                 <td className="px-4 py-3">
