@@ -57,10 +57,10 @@ export function StudentRoster({ students, onStatusChanged }: StudentRosterProps)
   };
 
   const renderTable = (list: StudentWithId[], showReactivate: boolean) => (
-    <div className="rounded-lg border border-brand-200">
+    <div className="rounded-lg border border-border">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-brand-100 text-left text-brand-400">
+          <tr className="border-b border-border text-left text-muted-foreground/50">
             <th className="px-4 py-2 font-medium">Name</th>
             <th className="px-4 py-2 font-medium">Status</th>
             <th className="px-4 py-2 font-medium text-right">Actions</th>
@@ -68,8 +68,8 @@ export function StudentRoster({ students, onStatusChanged }: StudentRosterProps)
         </thead>
         <tbody>
           {list.map((student) => (
-            <tr key={student.id} className="border-b border-brand-100 last:border-0">
-              <td className="px-4 py-3 font-medium text-brand-700">
+            <tr key={student.id} className="border-b border-border last:border-0">
+              <td className="px-4 py-3 font-medium text-foreground">
                 {student.data.studentDisplayName}
               </td>
               <td className="px-4 py-3">
@@ -117,14 +117,14 @@ export function StudentRoster({ students, onStatusChanged }: StudentRosterProps)
       <div className="space-y-6">
         {activeStudents.length > 0 ? (
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-brand-500">
+            <h3 className="text-sm font-medium text-muted-foreground">
               Active Students ({activeStudents.length})
             </h3>
             {renderTable(activeStudents, false)}
           </div>
         ) : (
-          <div className="rounded-lg border border-dashed border-brand-200 p-8 text-center">
-            <p className="text-brand-400">
+          <div className="rounded-lg border border-dashed border-border p-8 text-center">
+            <p className="text-muted-foreground">
               No active students yet. Invite your first student to get started.
             </p>
           </div>
@@ -132,7 +132,7 @@ export function StudentRoster({ students, onStatusChanged }: StudentRosterProps)
 
         {inactiveStudents.length > 0 && (
           <div className="space-y-3">
-            <h3 className="text-sm font-medium text-brand-400">
+            <h3 className="text-sm font-medium text-muted-foreground/50">
               Inactive ({inactiveStudents.length})
             </h3>
             {renderTable(inactiveStudents, true)}
@@ -149,7 +149,7 @@ export function StudentRoster({ students, onStatusChanged }: StudentRosterProps)
                 : "Reactivate Student"}
             </DialogTitle>
           </DialogHeader>
-          <p className="text-sm text-brand-500">
+          <p className="text-sm text-muted-foreground">
             {confirmDialog?.action === "deactivate"
               ? `Deactivate ${confirmDialog.student.data.studentDisplayName}? They won't be able to book lessons with you. Existing scheduled lessons will remain.`
               : `Reactivate ${confirmDialog?.student.data.studentDisplayName}? They'll be able to book lessons with you again.`}
@@ -164,7 +164,7 @@ export function StudentRoster({ students, onStatusChanged }: StudentRosterProps)
               className={
                 confirmDialog?.action === "deactivate"
                   ? "bg-error hover:bg-error/90"
-                  : "bg-accent-500 hover:bg-accent-600"
+                  : ""
               }
             >
               {loading ? (

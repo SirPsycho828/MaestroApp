@@ -79,7 +79,7 @@ export function InviteDialog({ onInviteCreated }: InviteDialogProps) {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button className="bg-accent-500 hover:bg-accent-600">
+        <Button>
           <UserPlus className="mr-2 h-4 w-4" />
           Invite Student
         </Button>
@@ -91,7 +91,7 @@ export function InviteDialog({ onInviteCreated }: InviteDialogProps) {
 
         {inviteUrl ? (
           <div className="space-y-4">
-            <p className="text-sm text-brand-500">
+            <p className="text-sm text-muted-foreground">
               Share this link with <strong>{studentName}</strong>:
             </p>
             <div className="flex items-center gap-2">
@@ -147,7 +147,7 @@ export function InviteDialog({ onInviteCreated }: InviteDialogProps) {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-accent-500 hover:bg-accent-600"
+              className="w-full"
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
