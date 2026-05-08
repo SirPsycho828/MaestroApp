@@ -9,6 +9,8 @@ import { Toaster } from "@/components/ui/sonner";
 import LandingPage from "@/pages/landing";
 import LoginPage from "@/pages/login";
 import RegisterTeacherPage from "@/pages/register-teacher";
+import InvitePage from "@/pages/invite";
+import RegisterStudentPage from "@/pages/register-student";
 import NotFoundPage from "@/pages/not-found";
 import TeacherDashboard from "@/pages/teacher/dashboard";
 import SetupPage from "@/pages/teacher/setup";
@@ -25,6 +27,8 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register/teacher" element={<RegisterTeacherPage />} />
+          <Route path="/invite/:token" element={<InvitePage />} />
+          <Route path="/register/student" element={<RegisterStudentPage />} />
 
           {/* Authenticated routes */}
           <Route element={<AuthGuard />}>
