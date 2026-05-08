@@ -16,3 +16,5 @@ export { completeLesson } from "./scheduling/complete-lesson";
 export { markNoShow } from "./scheduling/mark-no-show";
 export { createStripeConnectLink } from "./stripe/create-connect-link";
 export { checkStripeStatus } from "./stripe/check-stripe-status";
+export { createSubscriptionPlan } from "./stripe/create-plan";
+export { updateSubscriptionPlan } from "./stripe/update-plan";
