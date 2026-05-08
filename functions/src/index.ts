@@ -18,3 +18,5 @@ export { createStripeConnectLink } from "./stripe/create-connect-link";
 export { checkStripeStatus } from "./stripe/check-stripe-status";
 export { createSubscriptionPlan } from "./stripe/create-plan";
 export { updateSubscriptionPlan } from "./stripe/update-plan";
+export { createCreditPack } from "./stripe/create-pack";
+export { updateCreditPack } from "./stripe/update-pack";
