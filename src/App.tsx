@@ -19,6 +19,8 @@ import LocationsPage from "@/pages/teacher/settings/locations";
 import StudentsPage from "@/pages/teacher/students";
 import StudentHome from "@/pages/student/home";
 import BookPage from "@/pages/student/book";
+import AvailabilityPage from "@/pages/teacher/availability";
+import SchedulePage from "@/pages/teacher/schedule";
 
 export default function App() {
   return (
@@ -39,6 +41,11 @@ export default function App() {
               <Route path="/setup" element={<SetupPage />} />
             </Route>
 
+            {/* Booking flow (no app shell, student only) */}
+            <Route element={<RoleGuard role="student" />}>
+              <Route path="/book/:teacherSlug" element={<BookPage />} />
+            </Route>
+
             {/* Main app with shell (requires setup complete) */}
             <Route element={<AppShell />}>
               {/* Teacher routes */}
@@ -48,13 +55,14 @@ export default function App() {
                   <Route path="/students" element={<StudentsPage />} />
                   <Route path="/lesson-types" element={<LessonTypesPage />} />
                   <Route path="/settings/locations" element={<LocationsPage />} />
+                  <Route path="/availability" element={<AvailabilityPage />} />
+                  <Route path="/lessons" element={<SchedulePage />} />
                 </Route>
               </Route>
 
               {/* Student routes */}
               <Route element={<RoleGuard role="student" />}>
                 <Route path="/home" element={<StudentHome />} />
-                <Route path="/book/:teacherSlug" element={<BookPage />} />
               </Route>
             </Route>
           </Route>
