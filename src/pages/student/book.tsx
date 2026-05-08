@@ -22,6 +22,7 @@ import { Loader2, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import type { LessonType } from "@/types";
+import { FadeIn } from "@/components/ui/animated";
 
 interface LessonTypeWithId {
   id: string;
@@ -161,7 +162,7 @@ export default function BookPage() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-accent-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -169,7 +170,7 @@ export default function BookPage() {
   if (error) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4">
-        <p className="text-brand-500">{error}</p>
+        <p className="text-muted-foreground">{error}</p>
         <Button variant="ghost" onClick={() => navigate("/home")}>
           Go back
         </Button>
@@ -178,17 +179,17 @@ export default function BookPage() {
   }
 
   return (
-    <div className="min-h-screen bg-brand-50">
+    <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-xl px-4 py-8">
         <button
           onClick={() => (step > 1 ? setStep(step - 1) : navigate("/home"))}
-          className="mb-4 flex items-center gap-1 text-sm text-brand-500 hover:text-brand-700"
+          className="mb-4 flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
           {step > 1 ? "Back" : "Home"}
         </button>
 
-        <h1 className="text-2xl font-bold text-brand-800">Book with {teacherName}</h1>
+        <h1 className="text-2xl font-bold font-serif text-foreground">Book with {teacherName}</h1>
 
         <div className="mt-2 mb-6 flex gap-2">
           {[1, 2, 3].map((s) => (
@@ -196,44 +197,46 @@ export default function BookPage() {
               key={s}
               className={cn(
                 "h-1 flex-1 rounded-full",
-                s <= step ? "bg-accent-500" : "bg-brand-200"
+                s <= step ? "bg-primary" : "bg-muted"
               )}
             />
           ))}
         </div>
 
-        <div className="mt-6">
-          {step === 1 && (
-            <LessonTypePicker
-              lessonTypes={lessonTypes}
-              selected={selectedTypeId}
-              onSelect={handleSelectType}
-            />
-          )}
+        <FadeIn>
+          <div className="mt-6">
+            {step === 1 && (
+              <LessonTypePicker
+                lessonTypes={lessonTypes}
+                selected={selectedTypeId}
+                onSelect={handleSelectType}
+              />
+            )}
 
-          {step === 2 && selectedType && (
-            <DateSlotPicker
-              slots={slots}
-              timezone={timezone}
-              durationMinutes={selectedType.data.durationMinutes}
-              onSelect={handleSelectSlot}
-              onBack={() => setStep(1)}
-            />
-          )}
+            {step === 2 && selectedType && (
+              <DateSlotPicker
+                slots={slots}
+                timezone={timezone}
+                durationMinutes={selectedType.data.durationMinutes}
+                onSelect={handleSelectSlot}
+                onBack={() => setStep(1)}
+              />
+            )}
 
-          {step === 3 && selectedType && (
-            <BookingConfirm
-              lessonType={selectedType.data}
-              date={selectedDate}
-              startTime={selectedTime}
-              timezone={timezone}
-              creditBalance={creditBalance}
-              onConfirm={handleConfirm}
-              onBack={() => setStep(2)}
-              confirming={confirming}
-            />
-          )}
-        </div>
+            {step === 3 && selectedType && (
+              <BookingConfirm
+                lessonType={selectedType.data}
+                date={selectedDate}
+                startTime={selectedTime}
+                timezone={timezone}
+                creditBalance={creditBalance}
+                onConfirm={handleConfirm}
+                onBack={() => setStep(2)}
+                confirming={confirming}
+              />
+            )}
+          </div>
+        </FadeIn>
       </div>
     </div>
   );

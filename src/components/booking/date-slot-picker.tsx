@@ -69,8 +69,8 @@ export function DateSlotPicker({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-brand-700">Pick a Date & Time</h2>
-        <span className="text-sm text-brand-400">{formatTimezone(timezone)}</span>
+        <h2 className="text-lg font-semibold">Pick a Date & Time</h2>
+        <span className="text-sm text-muted-foreground">{formatTimezone(timezone)}</span>
       </div>
 
       {/* Date strip */}
@@ -87,9 +87,9 @@ export function DateSlotPicker({
               disabled={!hasSlots}
               className={cn(
                 "flex min-w-[52px] flex-col items-center rounded-lg px-2 py-2 text-sm transition-colors",
-                isSelected && "bg-accent-500 text-white",
-                hasSlots && !isSelected && "hover:bg-brand-100 text-brand-700",
-                !hasSlots && "text-brand-300 cursor-not-allowed"
+                isSelected && "bg-primary text-primary-foreground",
+                hasSlots && !isSelected && "hover:bg-primary/10 text-foreground",
+                !hasSlots && "text-muted-foreground/50 cursor-not-allowed"
               )}
             >
               <span className="text-xs">{dayName}</span>
@@ -114,7 +114,7 @@ export function DateSlotPicker({
           ))}
         </div>
       ) : (
-        <p className="py-8 text-center text-brand-400">
+        <p className="py-8 text-center text-muted-foreground">
           No times available on this day
         </p>
       )}
