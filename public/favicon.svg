@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g" x1=".2" y1="0" x2=".8" y2="1">
+      <stop stop-color="#e0c88e"/>
+      <stop offset="1" stop-color="#a07830"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#c8a55e" stop-opacity=".1"/>
+      <stop offset="1" stop-color="#c8a55e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Dark espresso background -->
+  <rect width="512" height="512" rx="108" fill="#1a1714"/>
+  <rect width="512" height="512" rx="108" fill="url(#glow)"/>
+  <!-- Beamed eighth notes in gold -->
+  <g fill="url(#g)">
+    <!-- Left note head -->
+    <ellipse cx="170" cy="352" rx="62" ry="46" transform="rotate(-20 170 352)"/>
+    <!-- Right note head -->
+    <ellipse cx="338" cy="318" rx="62" ry="46" transform="rotate(-20 338 318)"/>
+    <!-- Left stem -->
+    <rect x="220" y="108" width="16" height="252"/>
+    <!-- Right stem -->
+    <rect x="388" y="90" width="16" height="236"/>
+    <!-- Beam -->
+    <polygon points="220,108 404,90 404,122 220,140"/>
+  </g>
+</svg>
