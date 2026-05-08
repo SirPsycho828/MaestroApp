@@ -21,6 +21,12 @@ import StudentHome from "@/pages/student/home";
 import BookPage from "@/pages/student/book";
 import AvailabilityPage from "@/pages/teacher/availability";
 import SchedulePage from "@/pages/teacher/schedule";
+import StripeSetupPage from "@/pages/stripe/setup";
+import StripeCallbackPage from "@/pages/stripe/callback";
+import PricingPage from "@/pages/teacher/settings/pricing";
+import CreditsPage from "@/pages/student/credits";
+import CreditsBuyPage from "@/pages/student/credits-buy";
+import CreditsSuccessPage from "@/pages/student/credits-success";
 
 export default function App() {
   return (
@@ -36,14 +42,18 @@ export default function App() {
 
           {/* Authenticated routes */}
           <Route element={<AuthGuard />}>
-            {/* Setup wizard (no app shell, no setup guard) */}
+            {/* Setup wizard + Stripe onboarding (no app shell, no setup guard) */}
             <Route element={<RoleGuard role="teacher" />}>
               <Route path="/setup" element={<SetupPage />} />
+              <Route path="/stripe/setup" element={<StripeSetupPage />} />
+              <Route path="/stripe/callback" element={<StripeCallbackPage />} />
             </Route>
 
-            {/* Booking flow (no app shell, student only) */}
+            {/* Standalone student flows (no app shell) */}
             <Route element={<RoleGuard role="student" />}>
               <Route path="/book/:teacherSlug" element={<BookPage />} />
+              <Route path="/credits/buy" element={<CreditsBuyPage />} />
+              <Route path="/credits/success" element={<CreditsSuccessPage />} />
             </Route>
 
             {/* Main app with shell (requires setup complete) */}
@@ -57,12 +67,14 @@ export default function App() {
                   <Route path="/settings/locations" element={<LocationsPage />} />
                   <Route path="/availability" element={<AvailabilityPage />} />
                   <Route path="/lessons" element={<SchedulePage />} />
+                  <Route path="/settings/pricing" element={<PricingPage />} />
                 </Route>
               </Route>
 
               {/* Student routes */}
               <Route element={<RoleGuard role="student" />}>
                 <Route path="/home" element={<StudentHome />} />
+                <Route path="/credits" element={<CreditsPage />} />
               </Route>
             </Route>
           </Route>
