@@ -177,6 +177,7 @@ export interface StudentCredits {
   teacherId: string;
   studentId: string;
   balance: number;
+  stripeCustomerId?: string;
   stripeSubscriptionId?: string;
   subscriptionStatus?: SubscriptionStatus;
   currentPeriodEnd?: Timestamp;
