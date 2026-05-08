@@ -3,10 +3,14 @@ import { useNavigate, useSearchParams } from "react-router";
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut as firebaseSignOut,
   GoogleAuthProvider,
   OAuthProvider,
+  type User as FirebaseUser,
 } from "firebase/auth";
+import { httpsCallable, getFunctions } from "firebase/functions";
 import { auth } from "@/lib/firebase";
+import app from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,13 +21,34 @@ export function LoginForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get("redirect") || null;
+  const invite = searchParams.get("invite");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleRedirect = (role: string | undefined) => {
+  const handleRedirect = async (role: string | undefined, user: FirebaseUser) => {
+    if (invite) {
+      try {
+        const functions = getFunctions(app);
+        const acceptInviteFn = httpsCallable<{ token: string }, { success: boolean }>(
+          functions,
+          "acceptInvite"
+        );
+        await acceptInviteFn({ token: invite });
+        await user.getIdToken(true);
+        navigate("/home");
+        return;
+      } catch (err: unknown) {
+        const message = (err as { message?: string }).message || "";
+        if (message.includes("Teacher accounts cannot accept")) {
+          setError("Teacher accounts cannot accept student invites. Log in with a student account or create a new one.");
+          await firebaseSignOut(auth);
+          return;
+        }
+      }
+    }
     if (redirect) {
       navigate(redirect);
     } else if (role === "teacher") {
@@ -40,7 +65,7 @@ export function LoginForm() {
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password);
       const token = await cred.user.getIdTokenResult();
-      handleRedirect(token.claims.role as string | undefined);
+      await handleRedirect(token.claims.role as string | undefined, cred.user);
     } catch (err: unknown) {
       const code = (err as { code?: string }).code;
       setError(
@@ -59,7 +84,7 @@ export function LoginForm() {
     try {
       const cred = await signInWithPopup(auth, new GoogleAuthProvider());
       const token = await cred.user.getIdTokenResult(true);
-      handleRedirect(token.claims.role as string | undefined);
+      await handleRedirect(token.claims.role as string | undefined, cred.user);
     } catch (err: unknown) {
       const code = (err as { code?: string }).code;
       if (code !== "auth/popup-closed-by-user") {
@@ -79,7 +104,7 @@ export function LoginForm() {
       provider.addScope("name");
       const cred = await signInWithPopup(auth, provider);
       const token = await cred.user.getIdTokenResult(true);
-      handleRedirect(token.claims.role as string | undefined);
+      await handleRedirect(token.claims.role as string | undefined, cred.user);
     } catch (err: unknown) {
       const code = (err as { code?: string }).code;
       if (code !== "auth/popup-closed-by-user") {
