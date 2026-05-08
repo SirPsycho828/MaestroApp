@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Music, AlertCircle } from "lucide-react";
+import { FadeIn } from "@/components/ui/animated";
 
 interface InviteData {
   teacherId: string;
@@ -88,61 +89,67 @@ export default function InvitePage() {
 
   if (state.type === "loading") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-brand-50">
-        <Loader2 className="h-8 w-8 animate-spin text-accent-500" />
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   if (state.type === "invalid") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-brand-50 px-4">
-        <Card className="w-full max-w-md border-brand-200 text-center">
-          <CardContent className="pt-8 pb-8 space-y-4">
-            <AlertCircle className="mx-auto h-12 w-12 text-brand-300" />
-            <h2 className="text-xl font-semibold text-brand-800">
-              This invite link is no longer valid
-            </h2>
-            <p className="text-sm text-brand-400">
-              It may have expired or been revoked. Contact your teacher for a new invite.
-            </p>
-          </CardContent>
-        </Card>
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
+        <FadeIn>
+          <Card className="w-full max-w-md border-border/50 bg-card/80 backdrop-blur-xl text-center">
+            <CardContent className="pt-8 pb-8 space-y-4">
+              <AlertCircle className="mx-auto h-12 w-12 text-muted-foreground/50" />
+              <h2 className="text-xl font-semibold text-foreground">
+                This invite link is no longer valid
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                It may have expired or been revoked. Contact your teacher for a new invite.
+              </p>
+            </CardContent>
+          </Card>
+        </FadeIn>
       </div>
     );
   }
 
   if (state.type === "expired") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-brand-50 px-4">
-        <Card className="w-full max-w-md border-brand-200 text-center">
-          <CardContent className="pt-8 pb-8 space-y-4">
-            <AlertCircle className="mx-auto h-12 w-12 text-brand-300" />
-            <h2 className="text-xl font-semibold text-brand-800">
-              This invite link has expired
-            </h2>
-            <p className="text-sm text-brand-400">
-              Contact your teacher for a new invite.
-            </p>
-          </CardContent>
-        </Card>
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
+        <FadeIn>
+          <Card className="w-full max-w-md border-border/50 bg-card/80 backdrop-blur-xl text-center">
+            <CardContent className="pt-8 pb-8 space-y-4">
+              <AlertCircle className="mx-auto h-12 w-12 text-muted-foreground/50" />
+              <h2 className="text-xl font-semibold text-foreground">
+                This invite link has expired
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Contact your teacher for a new invite.
+              </p>
+            </CardContent>
+          </Card>
+        </FadeIn>
       </div>
     );
   }
 
   if (state.type === "accepted") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-brand-50 px-4">
-        <Card className="w-full max-w-md border-brand-200 text-center">
-          <CardContent className="pt-8 pb-8 space-y-4">
-            <h2 className="text-xl font-semibold text-brand-800">
-              This invite has already been used
-            </h2>
-            <Link to="/login">
-              <Button className="bg-accent-500 hover:bg-accent-600">Log in</Button>
-            </Link>
-          </CardContent>
-        </Card>
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
+        <FadeIn>
+          <Card className="w-full max-w-md border-border/50 bg-card/80 backdrop-blur-xl text-center">
+            <CardContent className="pt-8 pb-8 space-y-4">
+              <h2 className="text-xl font-semibold text-foreground">
+                This invite has already been used
+              </h2>
+              <Link to="/login">
+                <Button>Log in</Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </FadeIn>
       </div>
     );
   }
@@ -151,50 +158,52 @@ export default function InvitePage() {
   const { invite, teacher, teacherName, token: inviteToken } = state;
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-brand-50 px-4">
-      <Card className="w-full max-w-md border-brand-200">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent-50">
-            <Music className="h-8 w-8 text-accent-500" />
-          </div>
-          <CardTitle className="text-2xl">
-            You&apos;ve been invited by{" "}
-            <span className="text-accent-500">{teacherName}</span>
-          </CardTitle>
-          {teacher.studioName && (
-            <p className="text-sm text-brand-400">{teacher.studioName}</p>
-          )}
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {teacher.instruments.length > 0 && (
-            <div className="flex flex-wrap gap-2 justify-center">
-              {teacher.instruments.map((inst) => (
-                <Badge key={inst} variant="secondary">
-                  {inst}
-                </Badge>
-              ))}
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <FadeIn>
+        <Card className="w-full max-w-md border-border/50 bg-card/80 backdrop-blur-xl">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+              <Music className="h-8 w-8 text-primary" />
             </div>
-          )}
+            <CardTitle className="text-2xl font-serif">
+              You&apos;ve been invited by{" "}
+              <span className="text-primary">{teacherName}</span>
+            </CardTitle>
+            {teacher.studioName && (
+              <p className="text-sm text-muted-foreground">{teacher.studioName}</p>
+            )}
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {teacher.instruments.length > 0 && (
+              <div className="flex flex-wrap gap-2 justify-center">
+                {teacher.instruments.map((inst) => (
+                  <Badge key={inst} variant="secondary">
+                    {inst}
+                  </Badge>
+                ))}
+              </div>
+            )}
 
-          <p className="text-center text-sm text-brand-500">
-            We&apos;ll set up your account as{" "}
-            <strong>{invite.studentName}</strong> ({invite.studentEmail})
-          </p>
+            <p className="text-center text-sm text-muted-foreground">
+              We&apos;ll set up your account as{" "}
+              <strong>{invite.studentName}</strong> ({invite.studentEmail})
+            </p>
 
-          <div className="space-y-3">
-            <Link to={`/register/student?invite=${inviteToken}`} className="block">
-              <Button className="w-full bg-accent-500 hover:bg-accent-600">
-                Create Account
-              </Button>
-            </Link>
-            <Link to={`/login?invite=${inviteToken}`} className="block">
-              <Button variant="outline" className="w-full">
-                I already have an account
-              </Button>
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+            <div className="space-y-3">
+              <Link to={`/register/student?invite=${inviteToken}`} className="block">
+                <Button className="w-full">
+                  Create Account
+                </Button>
+              </Link>
+              <Link to={`/login?invite=${inviteToken}`} className="block">
+                <Button variant="outline" className="w-full">
+                  I already have an account
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </FadeIn>
     </div>
   );
 }
