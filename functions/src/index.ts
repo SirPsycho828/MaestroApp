@@ -1,0 +1,6 @@
+import { initializeApp } from "firebase-admin/app";
+
+initializeApp();
+
+export { onUserCreated } from "./auth/on-user-create";
+export { refreshClaims } from "./auth/refresh-claims";
