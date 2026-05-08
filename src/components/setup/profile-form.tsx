@@ -128,7 +128,7 @@ export function ProfileForm({ initialData, onSubmit, submitting }: ProfileFormPr
       <div className="space-y-2">
         <Label htmlFor="slug">Profile URL</Label>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-brand-400">tunefolio.com/teacher/</span>
+          <span className="text-sm text-muted-foreground">tunefolio.com/teacher/</span>
           <div className="relative flex-1">
             <Input
               id="slug"
@@ -142,7 +142,7 @@ export function ProfileForm({ initialData, onSubmit, submitting }: ProfileFormPr
             />
             <div className="absolute right-3 top-1/2 -translate-y-1/2">
               {slugStatus === "checking" && (
-                <Loader2 className="h-4 w-4 animate-spin text-brand-400" />
+                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
               )}
               {slugStatus === "available" && (
                 <Check className="h-4 w-4 text-success" />
@@ -159,7 +159,7 @@ export function ProfileForm({ initialData, onSubmit, submitting }: ProfileFormPr
       {/* Studio Name */}
       <div className="space-y-2">
         <Label htmlFor="studioName">
-          Studio name <span className="text-brand-400">(optional)</span>
+          Studio name <span className="text-muted-foreground">(optional)</span>
         </Label>
         <Input
           id="studioName"
@@ -174,14 +174,14 @@ export function ProfileForm({ initialData, onSubmit, submitting }: ProfileFormPr
 
       {/* Instruments */}
       <div className="space-y-2">
-        <Label>Instruments <span className="text-brand-400">(optional)</span></Label>
+        <Label>Instruments <span className="text-muted-foreground">(optional)</span></Label>
         <InstrumentsSelect value={instruments} onChange={setInstruments} />
       </div>
 
       {/* Bio */}
       <div className="space-y-2">
         <Label htmlFor="bio">
-          Bio <span className="text-brand-400">(optional)</span>
+          Bio <span className="text-muted-foreground">(optional)</span>
         </Label>
         <Textarea
           id="bio"
@@ -191,7 +191,7 @@ export function ProfileForm({ initialData, onSubmit, submitting }: ProfileFormPr
           rows={4}
           placeholder="Tell students about your teaching style and experience..."
         />
-        <p className="text-xs text-brand-400 text-right">{bio.length}/500</p>
+        <p className="text-xs text-muted-foreground text-right">{bio.length}/500</p>
         {errors.bio && <p className="text-sm text-error">{errors.bio}</p>}
       </div>
 
@@ -199,7 +199,6 @@ export function ProfileForm({ initialData, onSubmit, submitting }: ProfileFormPr
         <Button
           type="submit"
           disabled={submitting || slugStatus === "checking" || slugStatus === "taken"}
-          className="bg-accent-500 hover:bg-accent-600"
         >
           {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Next"}
         </Button>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
+import { FadeIn } from "@/components/ui/animated";
 
 const functions = getFunctions(app);
 
@@ -33,6 +34,7 @@ export default function StripeSetupPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
+      <FadeIn>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Connect Payments</CardTitle>
@@ -56,6 +58,7 @@ export default function StripeSetupPage() {
           </p>
         </CardContent>
       </Card>
+      </FadeIn>
     </div>
   );
 }

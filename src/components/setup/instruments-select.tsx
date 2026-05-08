@@ -57,8 +57,8 @@ export function InstrumentsSelect({
             className={cn(
               "rounded-full border px-3 py-1 text-sm font-medium transition-colors",
               value.includes(instrument)
-                ? "border-accent-500 bg-accent-50 text-accent-500"
-                : "border-brand-200 bg-white text-brand-500 hover:border-brand-300"
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-border bg-card text-muted-foreground hover:border-border"
             )}
           >
             {instrument}
@@ -70,8 +70,8 @@ export function InstrumentsSelect({
           className={cn(
             "rounded-full border px-3 py-1 text-sm font-medium transition-colors",
             showCustom || customInstruments.length > 0
-              ? "border-accent-500 bg-accent-50 text-accent-500"
-              : "border-brand-200 bg-white text-brand-500 hover:border-brand-300"
+              ? "border-primary bg-primary/10 text-primary"
+              : "border-border bg-card text-muted-foreground hover:border-border"
           )}
         >
           Other
@@ -83,13 +83,13 @@ export function InstrumentsSelect({
           {customInstruments.map((instrument) => (
             <span
               key={instrument}
-              className="mr-2 inline-flex items-center gap-1 rounded-full border border-accent-500 bg-accent-50 px-3 py-1 text-sm font-medium text-accent-500"
+              className="mr-2 inline-flex items-center gap-1 rounded-full border border-primary bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
             >
               {instrument}
               <button
                 type="button"
                 onClick={() => removeCustom(instrument)}
-                className="ml-0.5 rounded-full p-0.5 hover:bg-accent-100"
+                className="ml-0.5 rounded-full p-0.5 hover:bg-primary/20"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -111,7 +111,7 @@ export function InstrumentsSelect({
             <button
               type="button"
               onClick={addCustom}
-              className="text-sm font-medium text-accent-500 hover:text-accent-600"
+              className="text-sm font-medium text-primary hover:text-primary/80"
             >
               Add
             </button>
@@ -119,7 +119,7 @@ export function InstrumentsSelect({
         </div>
       )}
 
-      <p className="text-xs text-brand-400">
+      <p className="text-xs text-muted-foreground">
         {value.length}/{max} selected
       </p>
     </div>

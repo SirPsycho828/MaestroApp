@@ -86,7 +86,7 @@ export function LessonTypeForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-brand-200 bg-white p-5">
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border border-border bg-card p-5">
       <div className="space-y-2">
         <Label htmlFor="lt-name">Lesson name</Label>
         <Input
@@ -123,7 +123,7 @@ export function LessonTypeForm({
         <div className="space-y-2">
           <Label htmlFor="lt-price">Price</Label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-400">$</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
             <Input
               id="lt-price"
               type="number"
@@ -166,8 +166,8 @@ export function LessonTypeForm({
               disabled={isEditing}
               className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
                 !isGroup
-                  ? "border-accent-500 bg-accent-50 text-accent-500"
-                  : "border-brand-200 text-brand-500 hover:border-brand-300"
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:border-border"
               } ${isEditing ? "cursor-not-allowed opacity-50" : ""}`}
             >
               1-on-1
@@ -178,8 +178,8 @@ export function LessonTypeForm({
               disabled={isEditing}
               className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
                 isGroup
-                  ? "border-accent-500 bg-accent-50 text-accent-500"
-                  : "border-brand-200 text-brand-500 hover:border-brand-300"
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:border-border"
               } ${isEditing ? "cursor-not-allowed opacity-50" : ""}`}
             >
               Group
@@ -190,7 +190,7 @@ export function LessonTypeForm({
 
       <div className="space-y-2">
         <Label htmlFor="lt-desc">
-          Description <span className="text-brand-400">(optional)</span>
+          Description <span className="text-muted-foreground">(optional)</span>
         </Label>
         <Textarea
           id="lt-desc"
@@ -212,7 +212,6 @@ export function LessonTypeForm({
         <Button
           type="submit"
           disabled={submitting}
-          className="bg-accent-500 hover:bg-accent-600"
         >
           {submitting ? (
             <Loader2 className="h-4 w-4 animate-spin" />

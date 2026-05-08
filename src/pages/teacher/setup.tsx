@@ -24,6 +24,7 @@ import { AvailabilityGrid, slotKey, endTime } from "@/components/setup/availabil
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import type { TeacherProfile, LessonType } from "@/types";
+import { FadeIn } from "@/components/ui/animated";
 
 export default function SetupPage() {
   const { firebaseUser, userDoc } = useAuth();
@@ -275,16 +276,16 @@ export default function SetupPage() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-accent-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-brand-50">
+    <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-2xl px-4 py-8">
-        <h1 className="text-center">Set up your studio</h1>
-        <p className="mt-2 text-center text-brand-400">
+        <h1 className="text-center font-serif">Set up your studio</h1>
+        <p className="mt-2 text-center text-muted-foreground">
           Complete these steps to start receiving bookings
         </p>
 
@@ -292,44 +293,46 @@ export default function SetupPage() {
           <WizardStepper currentStep={currentStep} />
         </div>
 
-        <div className="mt-8">
-          {currentStep === 1 && (
-            <ProfileForm
-              initialData={{
-                displayName: userDoc?.displayName || "",
-                slug: profile.slug,
-                studioName: profile.studioName,
-                instruments: profile.instruments,
-                bio: profile.bio,
-              }}
-              onSubmit={handleProfileSubmit}
-              submitting={submitting}
-            />
-          )}
+        <FadeIn>
+          <div className="mt-8">
+            {currentStep === 1 && (
+              <ProfileForm
+                initialData={{
+                  displayName: userDoc?.displayName || "",
+                  slug: profile.slug,
+                  studioName: profile.studioName,
+                  instruments: profile.instruments,
+                  bio: profile.bio,
+                }}
+                onSubmit={handleProfileSubmit}
+                submitting={submitting}
+              />
+            )}
 
-          {currentStep === 2 && (
-            <LessonTypesStep
-              lessonTypes={lessonTypes}
-              onAdd={handleAddLessonType}
-              onEdit={handleEditLessonType}
-              onDelete={handleDeleteLessonType}
-              onNext={() => setCurrentStep(3)}
-              onBack={() => setCurrentStep(1)}
-              submitting={submitting}
-            />
-          )}
+            {currentStep === 2 && (
+              <LessonTypesStep
+                lessonTypes={lessonTypes}
+                onAdd={handleAddLessonType}
+                onEdit={handleEditLessonType}
+                onDelete={handleDeleteLessonType}
+                onNext={() => setCurrentStep(3)}
+                onBack={() => setCurrentStep(1)}
+                submitting={submitting}
+              />
+            )}
 
-          {currentStep === 3 && (
-            <AvailabilityGrid
-              value={selectedSlots}
-              onChange={setSelectedSlots}
-              onSubmit={handleFinish}
-              onBack={() => setCurrentStep(2)}
-              submitting={submitting}
-              timezone={timezone}
-            />
-          )}
-        </div>
+            {currentStep === 3 && (
+              <AvailabilityGrid
+                value={selectedSlots}
+                onChange={setSelectedSlots}
+                onSubmit={handleFinish}
+                onBack={() => setCurrentStep(2)}
+                submitting={submitting}
+                timezone={timezone}
+              />
+            )}
+          </div>
+        </FadeIn>
       </div>
     </div>
   );
