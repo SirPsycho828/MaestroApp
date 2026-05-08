@@ -9,3 +9,8 @@ export { completeSetupWizard } from "./teacher/complete-setup";
 export { createInvite } from "./invites/create-invite";
 export { revokeInvite } from "./invites/revoke-invite";
 export { acceptInvite } from "./invites/accept-invite";
+export { getAvailableSlots } from "./scheduling/get-available-slots";
+export { bookLesson } from "./scheduling/book-lesson";
+export { cancelLesson } from "./scheduling/cancel-lesson";
+export { completeLesson } from "./scheduling/complete-lesson";
+export { markNoShow } from "./scheduling/mark-no-show";
