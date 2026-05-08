@@ -121,7 +121,7 @@ export function AvailabilityGrid({
   return (
     <div className="space-y-4" onPointerUp={handlePointerUp} onPointerLeave={handlePointerUp}>
       {/* Timezone */}
-      <p className="text-sm text-brand-400">
+      <p className="text-sm text-muted-foreground">
         Times shown in {timezone.replace(/_/g, " ")}
       </p>
 
@@ -155,15 +155,15 @@ export function AvailabilityGrid({
       </div>
 
       {/* Grid */}
-      <div className="overflow-x-auto rounded-xl border border-brand-200">
+      <div className="overflow-x-auto rounded-xl border border-border">
         <div className="min-w-[500px]">
           {/* Header row */}
-          <div className="grid grid-cols-[60px_repeat(7,1fr)] border-b border-brand-200 bg-brand-50">
+          <div className="grid grid-cols-[60px_repeat(7,1fr)] border-b border-border bg-background">
             <div className="p-2" />
             {DAYS.map((day) => (
               <div
                 key={day}
-                className="p-2 text-center text-xs font-semibold text-brand-600"
+                className="p-2 text-center text-xs font-semibold text-foreground"
               >
                 {day}
               </div>
@@ -174,9 +174,9 @@ export function AvailabilityGrid({
           {timeSlots.map((time) => (
             <div
               key={time}
-              className="grid grid-cols-[60px_repeat(7,1fr)] border-b border-brand-100 last:border-b-0"
+              className="grid grid-cols-[60px_repeat(7,1fr)] border-b border-border last:border-b-0"
             >
-              <div className="flex items-center px-2 text-xs text-brand-400">
+              <div className="flex items-center px-2 text-xs text-muted-foreground">
                 {time.endsWith(":00") ? formatTime(time) : ""}
               </div>
               {DAY_INDICES.map((dayIndex) => {
@@ -188,10 +188,10 @@ export function AvailabilityGrid({
                     onPointerDown={() => handlePointerDown(key)}
                     onPointerEnter={() => handlePointerEnter(key)}
                     className={cn(
-                      "h-7 cursor-pointer border-l border-brand-100 transition-colors select-none",
+                      "h-7 cursor-pointer border-l border-border transition-colors select-none",
                       selected
-                        ? "bg-accent-50 border-l-2 border-l-accent-500"
-                        : "hover:bg-brand-50"
+                        ? "bg-primary/10 border-l-2 border-l-primary"
+                        : "hover:bg-background"
                     )}
                   />
                 );
@@ -201,7 +201,7 @@ export function AvailabilityGrid({
         </div>
       </div>
 
-      <p className="text-sm text-brand-400">
+      <p className="text-sm text-muted-foreground">
         {value.size} slot{value.size !== 1 ? "s" : ""} selected ({value.size * 30} minutes total)
       </p>
 
@@ -214,7 +214,6 @@ export function AvailabilityGrid({
         <Button
           onClick={handleFinish}
           disabled={submitting}
-          className="bg-accent-500 hover:bg-accent-600"
         >
           {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : (submitLabel ?? "Finish")}
         </Button>

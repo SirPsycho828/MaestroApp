@@ -7,6 +7,7 @@ import { LocationCard } from "@/components/settings/location-card";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Plus, MapPin, Loader2 } from "lucide-react";
+import { FadeIn } from "@/components/ui/animated";
 import type { Location } from "@/types";
 
 export default function LocationsPage() {
@@ -83,7 +84,7 @@ export default function LocationsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-accent-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -92,91 +93,92 @@ export default function LocationsPage() {
   const inactiveLocations = locations.filter((l) => !l.active);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1>Locations</h1>
-        <Button
-          onClick={() => {
-            setShowForm(true);
-            setEditingId(null);
-          }}
-          className="bg-accent-500 hover:bg-accent-600"
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Add Location
-        </Button>
+    <FadeIn>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h1 className="font-serif">Locations</h1>
+          <Button
+            onClick={() => {
+              setShowForm(true);
+              setEditingId(null);
+            }}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Add Location
+          </Button>
+        </div>
+
+        {showForm && (
+          <LocationForm
+            onSubmit={handleAdd}
+            onCancel={() => setShowForm(false)}
+            submitting={submitting}
+          />
+        )}
+
+        {locations.length === 0 && !showForm ? (
+          <div className="flex flex-col items-center rounded-xl border border-dashed border-border bg-card px-6 py-12 text-center">
+            <MapPin className="h-8 w-8 text-muted-foreground/50" />
+            <p className="mt-3 font-semibold text-foreground">No locations yet</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Add locations where you teach — in-person or virtual.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {activeLocations.map((loc) =>
+              editingId === loc.id ? (
+                <LocationForm
+                  key={loc.id}
+                  initialData={loc}
+                  onSubmit={handleEdit}
+                  onCancel={() => setEditingId(null)}
+                  submitting={submitting}
+                />
+              ) : (
+                <LocationCard
+                  key={loc.id}
+                  location={loc}
+                  onEdit={() => {
+                    setEditingId(loc.id);
+                    setShowForm(false);
+                  }}
+                  onToggleActive={(active) => handleToggleActive(loc.id, active)}
+                  onDelete={() => handleDelete(loc.id)}
+                />
+              )
+            )}
+
+            {inactiveLocations.length > 0 && (
+              <>
+                <h3 className="pt-4 text-muted-foreground">Inactive</h3>
+                {inactiveLocations.map((loc) =>
+                  editingId === loc.id ? (
+                    <LocationForm
+                      key={loc.id}
+                      initialData={loc}
+                      onSubmit={handleEdit}
+                      onCancel={() => setEditingId(null)}
+                      submitting={submitting}
+                    />
+                  ) : (
+                    <LocationCard
+                      key={loc.id}
+                      location={loc}
+                      onEdit={() => {
+                        setEditingId(loc.id);
+                        setShowForm(false);
+                      }}
+                      onToggleActive={(active) => handleToggleActive(loc.id, active)}
+                      onDelete={() => handleDelete(loc.id)}
+                    />
+                  )
+                )}
+              </>
+            )}
+          </div>
+        )}
       </div>
-
-      {showForm && (
-        <LocationForm
-          onSubmit={handleAdd}
-          onCancel={() => setShowForm(false)}
-          submitting={submitting}
-        />
-      )}
-
-      {locations.length === 0 && !showForm ? (
-        <div className="flex flex-col items-center rounded-xl border border-dashed border-brand-200 bg-white px-6 py-12 text-center">
-          <MapPin className="h-8 w-8 text-brand-300" />
-          <p className="mt-3 font-semibold text-brand-700">No locations yet</p>
-          <p className="mt-1 text-sm text-brand-400">
-            Add locations where you teach — in-person or virtual.
-          </p>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {activeLocations.map((loc) =>
-            editingId === loc.id ? (
-              <LocationForm
-                key={loc.id}
-                initialData={loc}
-                onSubmit={handleEdit}
-                onCancel={() => setEditingId(null)}
-                submitting={submitting}
-              />
-            ) : (
-              <LocationCard
-                key={loc.id}
-                location={loc}
-                onEdit={() => {
-                  setEditingId(loc.id);
-                  setShowForm(false);
-                }}
-                onToggleActive={(active) => handleToggleActive(loc.id, active)}
-                onDelete={() => handleDelete(loc.id)}
-              />
-            )
-          )}
-
-          {inactiveLocations.length > 0 && (
-            <>
-              <h3 className="pt-4 text-brand-400">Inactive</h3>
-              {inactiveLocations.map((loc) =>
-                editingId === loc.id ? (
-                  <LocationForm
-                    key={loc.id}
-                    initialData={loc}
-                    onSubmit={handleEdit}
-                    onCancel={() => setEditingId(null)}
-                    submitting={submitting}
-                  />
-                ) : (
-                  <LocationCard
-                    key={loc.id}
-                    location={loc}
-                    onEdit={() => {
-                      setEditingId(loc.id);
-                      setShowForm(false);
-                    }}
-                    onToggleActive={(active) => handleToggleActive(loc.id, active)}
-                    onDelete={() => handleDelete(loc.id)}
-                  />
-                )
-              )}
-            </>
-          )}
-        </div>
-      )}
-    </div>
+    </FadeIn>
   );
 }

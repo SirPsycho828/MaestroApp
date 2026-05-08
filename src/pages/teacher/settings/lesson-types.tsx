@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { Plus, BookOpen, Loader2 } from "lucide-react";
+import { FadeIn } from "@/components/ui/animated";
 import type { LessonType } from "@/types";
 
 export default function LessonTypesPage() {
@@ -147,7 +148,7 @@ export default function LessonTypesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-accent-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -156,103 +157,104 @@ export default function LessonTypesPage() {
   const inactiveTypes = lessonTypes.filter((lt) => !lt.active);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1>Lesson Types</h1>
-        <Button
-          onClick={() => {
-            setShowForm(true);
-            setEditingId(null);
-          }}
-          className="bg-accent-500 hover:bg-accent-600"
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Add Lesson Type
-        </Button>
-      </div>
-
-      {showForm && (
-        <LessonTypeForm
-          onSubmit={handleAdd}
-          onCancel={() => setShowForm(false)}
-          submitting={submitting}
-        />
-      )}
-
-      {lessonTypes.length === 0 && !showForm ? (
-        <div className="flex flex-col items-center rounded-xl border border-dashed border-brand-200 bg-white px-6 py-12 text-center">
-          <BookOpen className="h-8 w-8 text-brand-300" />
-          <p className="mt-3 font-semibold text-brand-700">No lesson types yet</p>
-          <p className="mt-1 text-sm text-brand-400">
-            Add lesson types that students can book.
-          </p>
+    <FadeIn>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h1 className="font-serif">Lesson Types</h1>
+          <Button
+            onClick={() => {
+              setShowForm(true);
+              setEditingId(null);
+            }}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Add Lesson Type
+          </Button>
         </div>
-      ) : (
-        <div className="space-y-3">
-          {activeTypes.map((lt) =>
-            editingId === lt.id ? (
-              <LessonTypeForm
-                key={lt.id}
-                initialData={lt}
-                onSubmit={handleEdit}
-                onCancel={() => setEditingId(null)}
-                submitting={submitting}
-                isEditing
-              />
-            ) : (
-              <div key={lt.id} className="flex items-center gap-2">
-                <div className="flex-1">
-                  <LessonTypeCard
-                    lessonType={lt}
-                    onEdit={() => {
-                      setEditingId(lt.id);
-                      setShowForm(false);
-                    }}
-                  />
-                </div>
-                <Switch
-                  checked={lt.active}
-                  onCheckedChange={(active) => handleToggleActive(lt.id, active)}
-                />
-              </div>
-            )
-          )}
 
-          {inactiveTypes.length > 0 && (
-            <>
-              <h3 className="pt-4 text-brand-400">Inactive</h3>
-              {inactiveTypes.map((lt) =>
-                editingId === lt.id ? (
-                  <LessonTypeForm
-                    key={lt.id}
-                    initialData={lt}
-                    onSubmit={handleEdit}
-                    onCancel={() => setEditingId(null)}
-                    submitting={submitting}
-                    isEditing
-                  />
-                ) : (
-                  <div key={lt.id} className="flex items-center gap-2 opacity-60">
-                    <div className="flex-1">
-                      <LessonTypeCard
-                        lessonType={lt}
-                        onEdit={() => {
-                          setEditingId(lt.id);
-                          setShowForm(false);
-                        }}
-                      />
-                    </div>
-                    <Switch
-                      checked={lt.active}
-                      onCheckedChange={(active) => handleToggleActive(lt.id, active)}
+        {showForm && (
+          <LessonTypeForm
+            onSubmit={handleAdd}
+            onCancel={() => setShowForm(false)}
+            submitting={submitting}
+          />
+        )}
+
+        {lessonTypes.length === 0 && !showForm ? (
+          <div className="flex flex-col items-center rounded-xl border border-dashed border-border bg-card px-6 py-12 text-center">
+            <BookOpen className="h-8 w-8 text-muted-foreground/50" />
+            <p className="mt-3 font-semibold text-foreground">No lesson types yet</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Add lesson types that students can book.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {activeTypes.map((lt) =>
+              editingId === lt.id ? (
+                <LessonTypeForm
+                  key={lt.id}
+                  initialData={lt}
+                  onSubmit={handleEdit}
+                  onCancel={() => setEditingId(null)}
+                  submitting={submitting}
+                  isEditing
+                />
+              ) : (
+                <div key={lt.id} className="flex items-center gap-2">
+                  <div className="flex-1">
+                    <LessonTypeCard
+                      lessonType={lt}
+                      onEdit={() => {
+                        setEditingId(lt.id);
+                        setShowForm(false);
+                      }}
                     />
                   </div>
-                )
-              )}
-            </>
-          )}
-        </div>
-      )}
-    </div>
+                  <Switch
+                    checked={lt.active}
+                    onCheckedChange={(active) => handleToggleActive(lt.id, active)}
+                  />
+                </div>
+              )
+            )}
+
+            {inactiveTypes.length > 0 && (
+              <>
+                <h3 className="pt-4 text-muted-foreground">Inactive</h3>
+                {inactiveTypes.map((lt) =>
+                  editingId === lt.id ? (
+                    <LessonTypeForm
+                      key={lt.id}
+                      initialData={lt}
+                      onSubmit={handleEdit}
+                      onCancel={() => setEditingId(null)}
+                      submitting={submitting}
+                      isEditing
+                    />
+                  ) : (
+                    <div key={lt.id} className="flex items-center gap-2 opacity-60">
+                      <div className="flex-1">
+                        <LessonTypeCard
+                          lessonType={lt}
+                          onEdit={() => {
+                            setEditingId(lt.id);
+                            setShowForm(false);
+                          }}
+                        />
+                      </div>
+                      <Switch
+                        checked={lt.active}
+                        onCheckedChange={(active) => handleToggleActive(lt.id, active)}
+                      />
+                    </div>
+                  )
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    </FadeIn>
   );
 }

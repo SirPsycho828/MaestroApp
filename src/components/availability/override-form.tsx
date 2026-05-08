@@ -50,7 +50,7 @@ export function OverrideForm({ onSave, onCancel }: OverrideFormProps) {
   };
 
   return (
-    <div className="space-y-4 rounded-xl border border-brand-200 bg-white p-4">
+    <div className="space-y-4 rounded-xl border border-border bg-card p-4">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label>Date</Label>
@@ -77,7 +77,7 @@ export function OverrideForm({ onSave, onCancel }: OverrideFormProps) {
 
       <div className="flex justify-end gap-2">
         <Button variant="ghost" onClick={onCancel}>Cancel</Button>
-        <Button onClick={handleSubmit} disabled={saving} className="bg-accent-500 hover:bg-accent-600">
+        <Button onClick={handleSubmit} disabled={saving}>
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}
         </Button>
       </div>

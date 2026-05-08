@@ -10,6 +10,7 @@ import {
 import { getFunctions, httpsCallable } from "firebase/functions";
 import app, { db } from "@/lib/firebase";
 import { useAuth } from "@/contexts/auth-context";
+import { FadeIn } from "@/components/ui/animated";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -213,7 +214,7 @@ export default function PricingPage() {
   if (!stripeOnboarded) {
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-brand-800">Pricing</h1>
+        <h1 className="text-2xl font-bold font-serif">Pricing</h1>
         <Card className="text-center">
           <CardHeader>
             <CreditCard className="mx-auto h-12 w-12 text-muted-foreground" />
@@ -235,9 +236,10 @@ export default function PricingPage() {
   }
 
   return (
+    <FadeIn>
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-brand-800">Pricing</h1>
+        <h1 className="text-2xl font-bold font-serif">Pricing</h1>
         <Badge variant="outline" className="gap-1 text-green-700 border-green-300 bg-green-50">
           <CheckCircle className="h-3 w-3" />
           Stripe Connected
@@ -247,7 +249,7 @@ export default function PricingPage() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-brand-700">Subscription Plans</h2>
+            <h2 className="text-lg font-semibold">Subscription Plans</h2>
             <p className="text-sm text-muted-foreground">
               Monthly recurring plans that grant credits each billing cycle
             </p>
@@ -304,7 +306,7 @@ export default function PricingPage() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-brand-700">Credit Packs</h2>
+            <h2 className="text-lg font-semibold">Credit Packs</h2>
             <p className="text-sm text-muted-foreground">
               One-time purchases that add credits to a student's balance
             </p>
@@ -447,5 +449,6 @@ export default function PricingPage() {
         </DialogContent>
       </Dialog>
     </div>
+    </FadeIn>
   );
 }
