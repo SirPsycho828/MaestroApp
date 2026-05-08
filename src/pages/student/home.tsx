@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   collection,
   query,
@@ -37,9 +37,11 @@ interface UpcomingLesson {
 
 export default function StudentHome() {
   const { firebaseUser, userDoc } = useAuth();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [teachers, setTeachers] = useState<TeacherInfo[]>([]);
   const [upcoming, setUpcoming] = useState<UpcomingLesson[]>([]);
+  const [creditBalances, setCreditBalances] = useState<Record<string, number>>({});
   const [cancelling, setCancelling] = useState("");
 
   const loadData = useCallback(async () => {
@@ -70,6 +72,16 @@ export default function StudentHome() {
       });
     }
     setTeachers(teacherList);
+
+    // Load credit balances per teacher
+    const balances: Record<string, number> = {};
+    await Promise.all(
+      teacherIds.map(async (tId) => {
+        const creditSnap = await getDoc(doc(db, "studentCredits", `${tId}_${uid}`));
+        balances[tId] = creditSnap.exists() ? (creditSnap.data().balance as number) ?? 0 : 0;
+      })
+    );
+    setCreditBalances(balances);
 
     // Get upcoming lessons
     const now = Timestamp.now();
@@ -159,16 +171,39 @@ export default function StudentHome() {
           <div className="grid gap-3 sm:grid-cols-2">
             {teachers.map((t) => (
               <Card key={t.id}>
-                <CardContent className="flex items-center justify-between p-4">
-                  <span className="font-medium text-brand-800">{t.displayName}</span>
-                  {t.slug && (
-                    <Button asChild size="sm" className="bg-accent-500 hover:bg-accent-600">
-                      <Link to={`/book/${t.slug}`}>
-                        <Calendar className="mr-1 h-4 w-4" />
-                        Book
-                      </Link>
-                    </Button>
-                  )}
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-brand-800">{t.displayName}</span>
+                    {t.slug && (
+                      <Button asChild size="sm" className="bg-accent-500 hover:bg-accent-600">
+                        <Link to={`/book/${t.slug}`}>
+                          <Calendar className="mr-1 h-4 w-4" />
+                          Book
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className={`text-sm font-semibold ${
+                      (creditBalances[t.id] ?? 0) === 0
+                        ? "text-red-600"
+                        : (creditBalances[t.id] ?? 0) <= 2
+                          ? "text-yellow-600"
+                          : "text-green-600"
+                    }`}>
+                      {creditBalances[t.id] ?? 0} credits
+                    </span>
+                    {(creditBalances[t.id] ?? 0) <= 2 && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-6 px-2 text-xs"
+                        onClick={() => navigate(`/credits/buy?teacher=${t.id}`)}
+                      >
+                        Buy Credits
+                      </Button>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             ))}
