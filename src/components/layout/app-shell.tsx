@@ -8,10 +8,10 @@ export function AppShell() {
 
   if (role === "teacher") {
     return (
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen bg-background">
         <TeacherSidebar />
         <main className="flex-1 pb-16 lg:pb-0">
-          <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
             <Outlet />
           </div>
         </main>
@@ -19,11 +19,10 @@ export function AppShell() {
     );
   }
 
-  // Student layout
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <main className="pb-20">
-        <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
+        <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
           <Outlet />
         </div>
       </main>
