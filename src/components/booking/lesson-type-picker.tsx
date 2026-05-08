@@ -1,0 +1,51 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { formatDuration, formatPrice } from "@/lib/time-utils";
+import { cn } from "@/lib/utils";
+import type { LessonType } from "@/types";
+
+interface LessonTypeWithId {
+  id: string;
+  data: LessonType;
+}
+
+interface LessonTypePickerProps {
+  lessonTypes: LessonTypeWithId[];
+  selected: string | null;
+  onSelect: (id: string) => void;
+}
+
+export function LessonTypePicker({ lessonTypes, selected, onSelect }: LessonTypePickerProps) {
+  return (
+    <div className="space-y-4">
+      <h2 className="text-lg font-semibold text-brand-700">Choose a Lesson Type</h2>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {lessonTypes.map((lt) => (
+          <Card
+            key={lt.id}
+            className={cn(
+              "cursor-pointer transition-all",
+              selected === lt.id
+                ? "border-accent-500 ring-2 ring-accent-200"
+                : "hover:border-brand-300"
+            )}
+            onClick={() => onSelect(lt.id)}
+          >
+            <CardContent className="p-4">
+              <p className="font-semibold text-brand-800">{lt.data.name}</p>
+              <div className="mt-2 flex items-center gap-3 text-sm text-brand-500">
+                <span>{formatDuration(lt.data.durationMinutes)}</span>
+                <span>{formatPrice(lt.data.priceAmount)}</span>
+                <span>
+                  {lt.data.creditCost} credit{lt.data.creditCost !== 1 ? "s" : ""}
+                </span>
+              </div>
+              {lt.data.description && (
+                <p className="mt-2 text-sm text-brand-400">{lt.data.description}</p>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}

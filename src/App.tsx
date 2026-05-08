@@ -18,6 +18,7 @@ import LessonTypesPage from "@/pages/teacher/settings/lesson-types";
 import LocationsPage from "@/pages/teacher/settings/locations";
 import StudentsPage from "@/pages/teacher/students";
 import StudentHome from "@/pages/student/home";
+import BookPage from "@/pages/student/book";
 
 export default function App() {
   return (
@@ -53,6 +54,7 @@ export default function App() {
               {/* Student routes */}
               <Route element={<RoleGuard role="student" />}>
                 <Route path="/home" element={<StudentHome />} />
+                <Route path="/book/:teacherSlug" element={<BookPage />} />
               </Route>
             </Route>
           </Route>
