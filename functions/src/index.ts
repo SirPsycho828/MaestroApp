@@ -4,3 +4,5 @@ initializeApp();
 
 export { onUserCreated } from "./auth/on-user-create";
 export { refreshClaims } from "./auth/refresh-claims";
+export { checkSlugAvailable } from "./teacher/check-slug";
+export { completeSetupWizard } from "./teacher/complete-setup";
