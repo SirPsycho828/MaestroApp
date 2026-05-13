@@ -1,28 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
     <linearGradient id="g" x1=".2" y1="0" x2=".8" y2="1">
-      <stop stop-color="#e0c88e"/>
-      <stop offset="1" stop-color="#a07830"/>
+      <stop stop-color="#D4AD60"/>
+      <stop offset="1" stop-color="#C19A4B"/>
     </linearGradient>
-    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
-      <stop offset="0" stop-color="#c8a55e" stop-opacity=".1"/>
-      <stop offset="1" stop-color="#c8a55e" stop-opacity="0"/>
+    <radialGradient id="glow" cx=".5" cy=".45" r=".5">
+      <stop offset="0" stop-color="#C19A4B" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#C19A4B" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <!-- Dark espresso background -->
-  <rect width="512" height="512" rx="108" fill="#1a1714"/>
-  <rect width="512" height="512" rx="108" fill="url(#glow)"/>
-  <!-- Beamed eighth notes in gold -->
+  <style>
+    .bg { fill: #3D2B1F; }
+    .staff { stroke: #C19A4B; opacity: 0.12; }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #FAF5ED; }
+      .staff { stroke: #3D2B1F; opacity: 0.08; }
+    }
+  </style>
+  <!-- Walnut background -->
+  <rect class="bg" width="512" height="512" rx="80"/>
+  <rect width="512" height="512" rx="80" fill="url(#glow)"/>
+  <!-- Subtle staff lines -->
+  <line class="staff" x1="60" y1="180" x2="452" y2="180" stroke-width="2"/>
+  <line class="staff" x1="60" y1="220" x2="452" y2="220" stroke-width="2"/>
+  <line class="staff" x1="60" y1="260" x2="452" y2="260" stroke-width="2"/>
+  <line class="staff" x1="60" y1="300" x2="452" y2="300" stroke-width="2"/>
+  <line class="staff" x1="60" y1="340" x2="452" y2="340" stroke-width="2"/>
+  <!-- Beamed eighth notes in antique gold -->
   <g fill="url(#g)">
-    <!-- Left note head -->
-    <ellipse cx="170" cy="352" rx="62" ry="46" transform="rotate(-20 170 352)"/>
-    <!-- Right note head -->
-    <ellipse cx="338" cy="318" rx="62" ry="46" transform="rotate(-20 338 318)"/>
-    <!-- Left stem -->
-    <rect x="220" y="108" width="16" height="252"/>
-    <!-- Right stem -->
-    <rect x="388" y="90" width="16" height="236"/>
-    <!-- Beam -->
-    <polygon points="220,108 404,90 404,122 220,140"/>
+    <ellipse cx="170" cy="352" rx="58" ry="44" transform="rotate(-20 170 352)"/>
+    <ellipse cx="338" cy="318" rx="58" ry="44" transform="rotate(-20 338 318)"/>
+    <rect x="218" y="112" width="14" height="248"/>
+    <rect x="386" y="96" width="14" height="230"/>
+    <polygon points="218,112 400,96 400,126 218,142"/>
   </g>
 </svg>

@@ -12,7 +12,8 @@ export function FadeIn({ children, delay = 0, duration = 0.5, className }: FadeI
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{ duration, delay, ease: "easeOut" }}
       className={className}
     >
@@ -25,7 +26,8 @@ export function SlideUp({ children, delay = 0, duration = 0.6, className }: Fade
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{ duration, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={className}
     >
@@ -38,7 +40,7 @@ const staggerContainerVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.08,
+      staggerChildren: 0.1,
     },
   },
 };
@@ -63,7 +65,8 @@ export function StaggerContainer({ children, className, delay = 0 }: StaggerProp
     <motion.div
       variants={staggerContainerVariants}
       initial="hidden"
-      animate="visible"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-40px" }}
       transition={{ delayChildren: delay }}
       className={className}
     >
@@ -84,7 +87,8 @@ export function ScaleIn({ children, delay = 0, className }: FadeInProps) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.4, delay, ease: "easeOut" }}
       className={className}
     >
@@ -105,13 +109,13 @@ export function ShimmerButton({ children, className, onClick }: ShimmerButtonPro
       onClick={onClick}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className={`relative overflow-hidden rounded-lg bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-lg transition-shadow hover:shadow-xl hover:shadow-primary/20 ${className ?? ""}`}
+      className={`relative overflow-hidden rounded-md bg-primary px-6 py-3 font-medium text-primary-foreground shadow-lg transition-shadow hover:shadow-xl hover:shadow-accent/15 ${className ?? ""}`}
     >
       <span className="relative z-10">{children}</span>
       <motion.div
-        className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
+        className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent"
         animate={{ translateX: ["-100%", "100%"] }}
-        transition={{ duration: 2, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
+        transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
       />
     </motion.button>
   );

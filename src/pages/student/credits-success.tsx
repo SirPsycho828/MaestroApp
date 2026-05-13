@@ -68,7 +68,7 @@ export default function CreditsSuccessPage() {
         <Card className="text-center">
           <CardHeader>
             {status === "processing" ? (
-              <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary" />
+              <Loader2 className="mx-auto h-12 w-12 animate-spin text-accent" />
             ) : (
               <CheckCircle className="mx-auto h-12 w-12 text-green-500" />
             )}

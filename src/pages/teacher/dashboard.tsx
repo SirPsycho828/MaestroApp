@@ -148,7 +148,7 @@ export default function TeacherDashboard() {
     <div className="space-y-8">
       <FadeIn>
         <div>
-          <h1 className="font-serif text-2xl font-bold">
+          <h1 className="font-serif text-2xl font-semibold">
             {firstName ? `Welcome back, ${firstName}` : "Welcome back"}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -161,8 +161,8 @@ export default function TeacherDashboard() {
         <StaggerItem>
           <Card>
             <CardContent className="flex items-center gap-4 p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <Clock className="h-5 w-5 text-primary" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/[0.06]">
+                <Clock className="h-5 w-5 text-accent" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{todayLessonCount}</p>
@@ -174,8 +174,8 @@ export default function TeacherDashboard() {
         <StaggerItem>
           <Card>
             <CardContent className="flex items-center gap-4 p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <Calendar className="h-5 w-5 text-primary" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/[0.06]">
+                <Calendar className="h-5 w-5 text-accent" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{weekLessonCount}</p>
@@ -187,8 +187,8 @@ export default function TeacherDashboard() {
         <StaggerItem>
           <Card>
             <CardContent className="flex items-center gap-4 p-5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                <Users className="h-5 w-5 text-primary" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/[0.06]">
+                <Users className="h-5 w-5 text-accent" />
               </div>
               <div>
                 <p className="text-2xl font-bold">{studentCount}</p>
@@ -254,19 +254,19 @@ export default function TeacherDashboard() {
           <div className="grid gap-3 sm:grid-cols-3">
             <Button asChild variant="outline" className="justify-start gap-2 h-auto py-3">
               <Link to="/students">
-                <Users className="h-4 w-4 text-primary" />
+                <Users className="h-4 w-4 text-accent" />
                 Manage Students
               </Link>
             </Button>
             <Button asChild variant="outline" className="justify-start gap-2 h-auto py-3">
               <Link to="/availability">
-                <Calendar className="h-4 w-4 text-primary" />
+                <Calendar className="h-4 w-4 text-accent" />
                 Set Availability
               </Link>
             </Button>
             <Button asChild variant="outline" className="justify-start gap-2 h-auto py-3">
               <Link to="/settings/pricing">
-                <CreditCard className="h-4 w-4 text-primary" />
+                <CreditCard className="h-4 w-4 text-accent" />
                 Configure Pricing
               </Link>
             </Button>

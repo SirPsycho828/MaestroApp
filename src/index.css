@@ -1,6 +1,10 @@
 @import "tailwindcss";
-@import "@fontsource-variable/dm-sans";
-@import "@fontsource/dm-serif-display";
+@import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cormorant-garamond/400-italic.css";
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource/cormorant-garamond/600.css";
+@import "@fontsource/cormorant-garamond/700.css";
+@import "@fontsource-variable/outfit";
 
 /* Class-based dark mode for next-themes */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -12,33 +16,50 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: var(--font-sans);
-    font-size: 15px;
+    font-family: var(--font-body);
+    font-size: 16px;
     line-height: 1.6;
     margin: 0;
   }
 
   h1 {
-    @apply text-3xl font-bold text-foreground tracking-tight;
-    line-height: 1.2;
+    font-family: var(--font-heading);
+    font-size: 3.25rem;
+    font-weight: 600;
+    line-height: 1.1;
     letter-spacing: -0.02em;
+    @apply text-foreground;
   }
 
   h2 {
-    @apply text-xl font-semibold text-foreground;
-    line-height: 1.3;
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 1.2;
     letter-spacing: -0.01em;
+    @apply text-foreground;
   }
 
   h3 {
-    @apply text-base font-semibold text-foreground;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+    @apply text-foreground;
+  }
+
+  h4 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
     line-height: 1.4;
+    @apply text-foreground;
   }
 }
 
 @layer utilities {
   .focus-ring {
-    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-background;
   }
 
   /* Glassmorphism utility */
@@ -52,13 +73,32 @@
 
   /* Gold glow effect */
   .glow-gold {
-    box-shadow: 0 0 20px rgba(200, 165, 94, 0.15), 0 0 60px rgba(200, 165, 94, 0.05);
+    box-shadow: 0 0 20px rgba(193, 154, 75, 0.15), 0 0 60px rgba(193, 154, 75, 0.05);
   }
 
   /* Text gradient for hero headings */
   .text-gradient-gold {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #e5c46e 0%, #c8a55e 50%, #a88838 100%);
+    background-image: linear-gradient(135deg, #D4AD60 0%, #C19A4B 50%, #8B6B4A 100%);
+  }
+
+  /* Musical staff divider */
+  .staff-divider {
+    position: relative;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0.08;
+  }
+
+  .staff-divider::before,
+  .staff-divider::after,
+  .staff-divider span {
+    display: block;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
   }
 }
 
@@ -95,117 +135,140 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 3px);
+  --radius-xl: calc(var(--radius) + 7px);
 
-  /* Brand palette (espresso dark tones) */
-  --color-brand-50: #f5f0e8;
-  --color-brand-100: #e8e0d4;
-  --color-brand-200: #d4c9b8;
-  --color-brand-300: #b8a890;
-  --color-brand-400: #9a8c7a;
-  --color-brand-500: #7d6d5a;
-  --color-brand-600: #5e4e3c;
-  --color-brand-700: #3d3228;
-  --color-brand-800: #2a231b;
-  --color-brand-900: #1a1714;
+  /* Brand palette (walnut tones) */
+  --color-brand-50: #FAF5ED;
+  --color-brand-100: #F0E8DE;
+  --color-brand-200: #DDD4C8;
+  --color-brand-300: #C4B5A2;
+  --color-brand-400: #A89580;
+  --color-brand-500: #8B7A66;
+  --color-brand-600: #6B5A46;
+  --color-brand-700: #4D3D2E;
+  --color-brand-800: #3D2B1F;
+  --color-brand-900: #2C1E14;
 
-  /* Accent (warm gold) */
-  --color-accent-50: #fdf8ed;
-  --color-accent-100: #faf0d4;
-  --color-accent-200: #f0dba3;
-  --color-accent-300: #e5c46e;
-  --color-accent-400: #d4ad4a;
-  --color-accent-500: #c8a55e;
-  --color-accent-600: #b8943e;
-  --color-accent-700: #8b6914;
+  /* Accent (antique gold) */
+  --color-accent-gold-50: #FBF6EB;
+  --color-accent-gold-100: #F5E9CE;
+  --color-accent-gold-200: #EBD5A0;
+  --color-accent-gold-300: #D4AD60;
+  --color-accent-gold-400: #C19A4B;
+  --color-accent-gold-500: #A88238;
+  --color-accent-gold-600: #8B6B2A;
+  --color-accent-gold-700: #6B5020;
 
   /* Semantic colors */
-  --color-success: #4caf7c;
-  --color-success-bg: #4caf7c1a;
-  --color-warning: #d4a645;
-  --color-warning-bg: #d4a6451a;
-  --color-error: #d4645e;
-  --color-error-bg: #d4645e1a;
-  --color-info: #5e9fd4;
-  --color-info-bg: #5e9fd41a;
+  --color-success: #3B8B5C;
+  --color-success-bg: rgba(59, 139, 92, 0.1);
+  --color-warning: #C49838;
+  --color-warning-bg: rgba(196, 152, 56, 0.1);
+  --color-error: #B83B3B;
+  --color-error-bg: rgba(184, 59, 59, 0.1);
+  --color-info: #5E8FAA;
+  --color-info-bg: rgba(94, 143, 170, 0.1);
 
   /* Fonts */
-  --font-sans: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "DM Serif Display", "Georgia", serif;
+  --font-sans: "Outfit Variable", "Outfit", system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", "Georgia", serif;
+  --font-body: "Outfit Variable", "Outfit", system-ui, sans-serif;
+  --font-heading: "Cormorant Garamond", "Georgia", serif;
+
+  /* Shadows (warm-toned) */
+  --shadow-sm: 0 1px 3px rgba(44, 30, 20, 0.06), 0 1px 2px rgba(44, 30, 20, 0.04);
+  --shadow-md: 0 4px 12px rgba(44, 30, 20, 0.08), 0 2px 4px rgba(44, 30, 20, 0.04);
+  --shadow-lg: 0 12px 32px rgba(44, 30, 20, 0.10), 0 4px 8px rgba(44, 30, 20, 0.06);
+  --shadow-xl: 0 24px 48px rgba(44, 30, 20, 0.12), 0 8px 16px rgba(44, 30, 20, 0.06);
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.3125rem;
 
-  /* Light mode */
-  --background: #faf7f2;
-  --foreground: #2a231b;
-  --card: #ffffff;
-  --card-foreground: #2a231b;
-  --popover: #ffffff;
-  --popover-foreground: #2a231b;
-  --primary: #8b6914;
-  --primary-foreground: #faf7f2;
-  --secondary: #f0ece5;
-  --secondary-foreground: #2a231b;
-  --muted: #f0ece5;
-  --muted-foreground: #6e5e4a;
-  --accent: #f0ece5;
-  --accent-foreground: #2a231b;
-  --destructive: #c44a4a;
-  --border: #e0d9ce;
-  --input: #e0d9ce;
-  --ring: #8b6914;
-  --chart-1: #c8a55e;
-  --chart-2: #4caf7c;
-  --chart-3: #5e9fd4;
-  --chart-4: #d4645e;
-  --chart-5: #d4a645;
+  /* Light mode — Conservatory palette */
+  --background: #FAF5ED;
+  --foreground: #2C1E14;
+  --card: #FFFFFF;
+  --card-foreground: #2C1E14;
+  --popover: #FFFFFF;
+  --popover-foreground: #2C1E14;
+  --primary: #3D2B1F;
+  --primary-foreground: #FAF5ED;
+  --secondary: #F0E8DE;
+  --secondary-foreground: #3D2B1F;
+  --muted: #EDE6DB;
+  --muted-foreground: #8B7A66;
+  --accent: #C19A4B;
+  --accent-foreground: #2C1E14;
+  --destructive: #B83B3B;
+  --border: #DDD4C8;
+  --input: #D8CFC2;
+  --ring: #C19A4B;
+  --chart-1: #C19A4B;
+  --chart-2: #3B8B5C;
+  --chart-3: #5E8FAA;
+  --chart-4: #B83B3B;
+  --chart-5: #C49838;
 
-  --sidebar: #f5f0e8;
-  --sidebar-foreground: #2a231b;
-  --sidebar-primary: #8b6914;
-  --sidebar-primary-foreground: #faf7f2;
-  --sidebar-accent: #f0ece5;
-  --sidebar-accent-foreground: #2a231b;
-  --sidebar-border: #e0d9ce;
-  --sidebar-ring: #8b6914;
+  --sidebar: #F5F0E8;
+  --sidebar-foreground: #2C1E14;
+  --sidebar-primary: #3D2B1F;
+  --sidebar-primary-foreground: #FAF5ED;
+  --sidebar-accent: #F0E8DE;
+  --sidebar-accent-foreground: #2C1E14;
+  --sidebar-border: #DDD4C8;
+  --sidebar-ring: #C19A4B;
 }
 
 .dark {
-  --background: #1a1714;
-  --foreground: #f5f0e8;
-  --card: #231f19;
-  --card-foreground: #f5f0e8;
-  --popover: #231f19;
-  --popover-foreground: #f5f0e8;
-  --primary: #c8a55e;
-  --primary-foreground: #1a1714;
-  --secondary: #2e2923;
-  --secondary-foreground: #f5f0e8;
-  --muted: #2e2923;
-  --muted-foreground: #9a8c7a;
-  --accent: #2e2923;
-  --accent-foreground: #f5f0e8;
-  --destructive: #d4645e;
-  --border: rgba(245, 240, 232, 0.08);
-  --input: rgba(245, 240, 232, 0.12);
-  --ring: #c8a55e;
-  --chart-1: #c8a55e;
-  --chart-2: #4caf7c;
-  --chart-3: #5e9fd4;
-  --chart-4: #d4645e;
-  --chart-5: #d4a645;
+  --background: #1A1510;
+  --foreground: #F0E8DE;
+  --card: #252018;
+  --card-foreground: #F0E8DE;
+  --popover: #252018;
+  --popover-foreground: #F0E8DE;
+  --primary: #C19A4B;
+  --primary-foreground: #1A1510;
+  --secondary: #302820;
+  --secondary-foreground: #F0E8DE;
+  --muted: #302820;
+  --muted-foreground: #9A8A78;
+  --accent: #C19A4B;
+  --accent-foreground: #1A1510;
+  --destructive: #D45858;
+  --border: rgba(240, 232, 222, 0.08);
+  --input: rgba(240, 232, 222, 0.12);
+  --ring: #C19A4B;
+  --chart-1: #C19A4B;
+  --chart-2: #4CAF7C;
+  --chart-3: #5E9FD4;
+  --chart-4: #D45858;
+  --chart-5: #D4A645;
 
   --sidebar: #141210;
-  --sidebar-foreground: #f5f0e8;
-  --sidebar-primary: #c8a55e;
-  --sidebar-primary-foreground: #1a1714;
-  --sidebar-accent: #2e2923;
-  --sidebar-accent-foreground: #f5f0e8;
-  --sidebar-border: rgba(245, 240, 232, 0.06);
-  --sidebar-ring: #c8a55e;
+  --sidebar-foreground: #F0E8DE;
+  --sidebar-primary: #C19A4B;
+  --sidebar-primary-foreground: #1A1510;
+  --sidebar-accent: #302820;
+  --sidebar-accent-foreground: #F0E8DE;
+  --sidebar-border: rgba(240, 232, 222, 0.06);
+  --sidebar-ring: #C19A4B;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
 }

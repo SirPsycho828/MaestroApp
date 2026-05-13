@@ -152,7 +152,7 @@ export default function StudentHome() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-accent" />
       </div>
     );
   }
@@ -160,7 +160,7 @@ export default function StudentHome() {
   return (
     <FadeIn>
       <div className="mx-auto max-w-2xl space-y-8 p-6">
-        <h1 className="text-2xl font-bold font-serif">
+        <h1 className="text-2xl font-semibold font-serif">
           Welcome{userDoc?.displayName ? `, ${userDoc.displayName}` : ""}
         </h1>
 
