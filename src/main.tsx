@@ -15,11 +15,11 @@ if (typeof window !== "undefined") {
         "  | | | |_| | |\\  | |___|  _| | |_| | |___ | | |_| |",
         "  |_|  \\___/|_| \\_|_____|_|    \\___/|_____|___\\___/ ",
       ].join("\n"),
-    "color: #C19A4B; font-family: monospace; font-size: 12px; line-height: 1.2;"
+    "color: #C26843; font-family: monospace; font-size: 12px; line-height: 1.2;"
   );
   console.log(
     "%cEvery great performance starts with the right preparation.",
-    "color: #8B7A66; font-size: 12px; font-style: italic;"
+    "color: #6B7A72; font-size: 12px; font-style: italic;"
   );
 }
 

@@ -1,7 +1,7 @@
 # Design Overhaul State
 
-## Current Phase: 10 (Verify)
-## Completed: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+## Current Phase: 11 (Deploy)
+## Completed: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 ## Project
 - **Name:** TuneFolio
@@ -11,8 +11,9 @@
 - **Component Library:** shadcn/ui (new-york style, stone base)
 - **Animation:** Motion (Framer Motion)
 - **Icons:** Lucide
-- **Fonts:** Cormorant Garamond + Outfit Variable
-- **Colors:** Walnut (#3D2B1F) + Antique Gold (#C19A4B) + Ivory (#FAF5ED)
+- **Fonts:** Crimson Pro Variable + Jost Variable (via @fontsource)
+- **Colors:** Deep Pine (#1C3A2E) + Terracotta (#C26843) + Warm Cream (#F8F5F0)
+- **Favicon:** Sound waveform bars on pine background (public/favicon.svg)
 
 ## Page Inventory
 | Page | Route | File | Status |
@@ -40,15 +41,20 @@
 | Not Found | * | src/pages/not-found.tsx | done |
 
 ## Design Direction
-**Chosen:** Conservatory — refined classical elegance
-**Typography:** Cormorant Garamond (headings) + Outfit (body)
-**Primary:** #3D2B1F (warm walnut)
-**Accent:** #C19A4B (antique gold)
-**Background:** #FAF5ED (ivory)
+**Chosen:** Acoustic — minimal warmth meets Scandinavian calm
+**Typography:** Crimson Pro (headings) + Jost (body)
+**Primary:** #1C3A2E (deep pine)
+**Accent:** #C26843 (warm terracotta)
+**Background:** #F8F5F0 (warm cream)
 **Surface:** #FFFFFF (white)
-**Foreground:** #2C1E14 (deep espresso)
-**Distinguishing:** #8B6B4A (burnished copper)
-**Signature:** Musical notation decorative system — staff lines as dividers, treble clef logo mark, rest symbols as loading indicators
+**Foreground:** #1A1D1B (near-black green)
+**Distinguishing:** #7BA393 (sage mist)
+**Signature:** Animated sound-wave line dividers — thin SVG waveforms that pulse gently on scroll, used as section separators and loading states
+
+## 21st.dev Research
+- Hero sections: Education-style hero with split layout (image collage + text), stats row, badge. Good patterns for landing page.
+- Dashboard cards: Stats cards with icon + metric + trend indicator. Card-based layout with CardHeader/CardContent pattern.
+- Available component styles: glassmorphic cards, minimal flat buttons, badge-based status indicators.
 
 ## Design System
 docs/design-system.md

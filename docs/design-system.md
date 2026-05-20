@@ -4,140 +4,170 @@
 
 ## Design Direction
 
-**Direction:** Conservatory — refined classical elegance, the UI equivalent of a Steinway grand
-**Signature Element:** Musical notation decorative system — staff lines as dividers, treble clef logo mark, rest symbols as loading indicators
+**Direction:** Acoustic — minimal warmth meets Scandinavian calm
+**Signature Element:** Animated sound-wave line dividers — thin SVG waveforms that pulse gently on scroll, used as section separators and loading states
 
 ---
 
 ## Typography
 
 ### Fonts
-- **Heading:** Cormorant Garamond (400–700, italic)
-- **Body:** Outfit (300–700)
+- **Heading:** Crimson Pro (400-700, variable)
+- **Body:** Jost (300-700, variable)
 
 ### Import
-Using `@fontsource` packages:
+Installed via @fontsource variable packages:
 ```
-@fontsource/cormorant-garamond (weights: 400, 500, 600, 700, italic: 400)
-@fontsource-variable/outfit
+@fontsource-variable/crimson-pro
+@fontsource-variable/jost
 ```
 
 ### Scale
 | Level | Font | Size | Weight | Line Height | Letter Spacing |
 |-------|------|------|--------|-------------|----------------|
-| h1 | Cormorant Garamond | 3.25rem (52px) | 600 | 1.1 | -0.02em |
-| h2 | Cormorant Garamond | 2.25rem (36px) | 600 | 1.2 | -0.01em |
-| h3 | Cormorant Garamond | 1.5rem (24px) | 600 | 1.3 | 0 |
-| h4 | Cormorant Garamond | 1.25rem (20px) | 600 | 1.4 | 0 |
-| body | Outfit | 1rem (16px) | 400 | 1.6 | 0 |
-| body-sm | Outfit | 0.875rem (14px) | 400 | 1.5 | 0 |
-| caption | Outfit | 0.75rem (12px) | 500 | 1.4 | 0.02em |
-| button | Outfit | 0.875rem (14px) | 500 | 1 | 0.04em |
+| h1 | Heading | 3.25rem (52px) | 600 | 1.1 | -0.02em |
+| h2 | Heading | 2.25rem (36px) | 600 | 1.2 | -0.01em |
+| h3 | Heading | 1.5rem (24px) | 500 | 1.3 | 0 |
+| h4 | Heading | 1.25rem (20px) | 500 | 1.4 | 0 |
+| body | Body | 1rem (16px) | 400 | 1.65 | 0 |
+| body-sm | Body | 0.875rem (14px) | 400 | 1.5 | 0 |
+| caption | Body | 0.75rem (12px) | 500 | 1.4 | 0.02em |
+| button | Body | 0.875rem (14px) | 500 | 1 | 0.03em |
 
 ---
 
 ## Color Palette
 
-### Light Mode — Core
+### Core
 | Token | HSL | Hex | Usage |
 |-------|-----|-----|-------|
-| --primary | hsl(24, 33%, 18%) | #3D2B1F | Brand buttons, headers |
-| --primary-foreground | hsl(37, 56%, 95%) | #FAF5ED | Text on primary |
-| --secondary | hsl(30, 35%, 91%) | #F0E8DE | Secondary buttons, subtle backgrounds |
-| --secondary-foreground | hsl(24, 33%, 18%) | #3D2B1F | Text on secondary |
-| --accent | hsl(40, 50%, 53%) | #C19A4B | Highlights, links, focus rings |
-| --accent-foreground | hsl(25, 38%, 13%) | #2C1E14 | Text on accent |
+| --primary | hsl(156, 35%, 17%) | #1C3A2E | Brand identity, primary buttons |
+| --primary-foreground | hsl(39, 36%, 96%) | #F8F5F0 | Text on primary |
+| --secondary | hsl(145, 14%, 93%) | #EBF0ED | Secondary buttons, subtle backgrounds |
+| --secondary-foreground | hsl(156, 35%, 17%) | #1C3A2E | Text on secondary |
+| --accent | hsl(17, 51%, 51%) | #C26843 | Highlights, links, focus rings |
+| --accent-foreground | hsl(0, 0%, 100%) | #FFFFFF | Text on accent |
 
-### Light Mode — Surfaces
+### Surfaces
 | Token | HSL | Hex | Usage |
 |-------|-----|-----|-------|
-| --background | hsl(37, 56%, 95%) | #FAF5ED | Page background |
-| --foreground | hsl(25, 38%, 13%) | #2C1E14 | Primary text |
+| --background | hsl(39, 36%, 96%) | #F8F5F0 | Page background |
+| --foreground | hsl(140, 6%, 11%) | #1A1D1B | Primary text |
 | --card | hsl(0, 0%, 100%) | #FFFFFF | Card/panel backgrounds |
-| --card-foreground | hsl(25, 38%, 13%) | #2C1E14 | Text on cards |
-| --muted | hsl(32, 30%, 89%) | #EDE6DB | Disabled, secondary elements |
-| --muted-foreground | hsl(28, 17%, 47%) | #8B7A66 | Secondary text, labels |
+| --card-foreground | hsl(140, 6%, 11%) | #1A1D1B | Text on cards |
+| --popover | hsl(0, 0%, 100%) | #FFFFFF | Dropdown/popover backgrounds |
+| --popover-foreground | hsl(140, 6%, 11%) | #1A1D1B | Text in popovers |
+| --muted | hsl(150, 10%, 90%) | #E2E8E5 | Disabled, secondary elements |
+| --muted-foreground | hsl(150, 7%, 45%) | #6B7A72 | Secondary text, labels |
 
-### Light Mode — Borders & Input
+### Borders & Input
 | Token | HSL | Hex | Usage |
 |-------|-----|-----|-------|
-| --border | hsl(30, 20%, 83%) | #DDD4C8 | Dividers, card borders |
-| --input | hsl(30, 19%, 80%) | #D8CFC2 | Form input borders |
-| --ring | hsl(40, 50%, 53%) | #C19A4B | Focus ring color |
+| --border | hsl(150, 10%, 85%) | #D5DDD9 | Dividers, card borders |
+| --input | hsl(150, 9%, 81%) | #CCD6D1 | Form input borders |
+| --ring | hsl(17, 51%, 51%) | #C26843 | Focus ring color |
 
-### Light Mode — Semantic
+### Semantic
 | Token | HSL | Hex | Usage |
 |-------|-----|-----|-------|
-| --destructive | hsl(0, 52%, 48%) | #B83B3B | Error, delete, danger |
-| --destructive-foreground | hsl(0, 0%, 100%) | #FFFFFF | Text on destructive |
-| --success | hsl(148, 42%, 39%) | #3B8B5C | Success, complete |
-| --warning | hsl(38, 56%, 49%) | #C49838 | Caution, pending |
+| --destructive | hsl(0, 52%, 50%) | #C43C3C | Error, delete, danger |
+| --success | hsl(148, 41%, 39%) | #3B8B5C | Success, complete, active |
+| --warning | hsl(38, 54%, 49%) | #C49838 | Caution, pending, attention |
 
-### Dark Mode
-| Token | HSL | Hex | Usage |
-|-------|-----|-----|-------|
-| --background | hsl(30, 25%, 8%) | #1A1510 | Deep warm black |
-| --foreground | hsl(30, 35%, 91%) | #F0E8DE | Warm cream text |
-| --card | hsl(30, 21%, 12%) | #252018 | Dark walnut cards |
-| --card-foreground | hsl(30, 35%, 91%) | #F0E8DE | Cream text |
-| --primary | hsl(40, 50%, 53%) | #C19A4B | Gold becomes primary |
-| --primary-foreground | hsl(30, 25%, 8%) | #1A1510 | Dark on gold |
-| --secondary | hsl(30, 20%, 16%) | #302820 | Dark warm brown |
-| --secondary-foreground | hsl(30, 35%, 91%) | #F0E8DE | Cream on dark |
-| --accent | hsl(40, 50%, 53%) | #C19A4B | Gold stays |
-| --accent-foreground | hsl(30, 25%, 8%) | #1A1510 | Dark on gold |
-| --muted | hsl(30, 20%, 16%) | #302820 | Dark brown |
-| --muted-foreground | hsl(28, 15%, 54%) | #9A8A78 | Warm gray |
-| --border | rgba(240, 232, 222, 0.08) | — | Subtle warm white |
-| --input | rgba(240, 232, 222, 0.12) | — | Slightly stronger |
-| --ring | hsl(40, 50%, 53%) | #C19A4B | Gold |
-| --destructive | hsl(0, 55%, 55%) | #D45858 | Brighter red for dark |
-| --destructive-foreground | hsl(0, 0%, 100%) | #FFFFFF | White on red |
+### Dark Mode Overrides
+| Token | Hex | Notes |
+|-------|-----|-------|
+| --background | #111916 | Deep forest night |
+| --foreground | #E5EBE8 | Light sage |
+| --card | #1A2420 | Slightly elevated |
+| --card-foreground | #E5EBE8 | |
+| --popover | #1A2420 | |
+| --popover-foreground | #E5EBE8 | |
+| --primary | #7BA393 | Sage mist (inverted) |
+| --primary-foreground | #111916 | |
+| --secondary | #1E2B26 | |
+| --secondary-foreground | #E5EBE8 | |
+| --muted | #1E2B26 | |
+| --muted-foreground | #7B8B83 | |
+| --accent | #C26843 | Same terracotta |
+| --accent-foreground | #111916 | |
+| --destructive | #D45858 | Lighter red for dark bg |
+| --border | rgba(229, 235, 232, 0.08) | |
+| --input | rgba(229, 235, 232, 0.12) | |
+| --ring | #C26843 | |
+
+### Brand Palette (extended)
+| Token | Hex |
+|-------|-----|
+| --brand-50 | #F0F5F3 |
+| --brand-100 | #DCE8E3 |
+| --brand-200 | #B8D1C6 |
+| --brand-300 | #7BA393 |
+| --brand-400 | #4D7A6A |
+| --brand-500 | #2E5A4A |
+| --brand-600 | #1C3A2E |
+| --brand-700 | #152D23 |
+| --brand-800 | #0F201A |
+| --brand-900 | #0A1510 |
+
+### Accent Palette (extended)
+| Token | Hex |
+|-------|-----|
+| --accent-warm-50 | #FDF3EE |
+| --accent-warm-100 | #F9E2D5 |
+| --accent-warm-200 | #EFC0A6 |
+| --accent-warm-300 | #D48D68 |
+| --accent-warm-400 | #C26843 |
+| --accent-warm-500 | #A8532E |
+| --accent-warm-600 | #8B4024 |
+| --accent-warm-700 | #6B301A |
 
 ---
 
 ## Spacing
 
-Base unit: 4px. Luxury multiplier applied (1.25x generous).
+Base unit: 4px (generous, 1.25x multiplier for Scandinavian breathing room)
 
 | Token | Value | Usage |
 |-------|-------|-------|
 | --space-1 | 0.25rem (4px) | Tight gaps |
 | --space-2 | 0.5rem (8px) | Component internal padding |
-| --space-3 | 0.75rem (12px) | Between related elements |
-| --space-4 | 1rem (16px) | Standard gap |
-| --space-6 | 1.5rem (24px) | Section padding |
-| --space-8 | 2rem (32px) | Section margins |
-| --space-12 | 3rem (48px) | Large section gaps |
-| --space-16 | 4rem (64px) | Page section separation |
-| --space-24 | 6rem (96px) | Hero/major section gaps |
+| --space-3 | 1rem (16px) | Between related elements |
+| --space-4 | 1.25rem (20px) | Standard gap |
+| --space-6 | 2rem (32px) | Section padding |
+| --space-8 | 2.5rem (40px) | Section margins |
+| --space-12 | 3.75rem (60px) | Large section gaps |
+| --space-16 | 5rem (80px) | Page section separation |
+| --space-24 | 7.5rem (120px) | Hero/major section gaps |
 
 ---
 
 ## Border Radius
 
-Refined and sharp — classical elegance:
+Soft but restrained.
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| --radius-sm | 3px | Small elements (badges, chips) |
-| --radius-md | 5px | Buttons, inputs |
-| --radius-lg | 8px | Cards, panels |
-| --radius-xl | 12px | Modals, large containers |
+| --radius-sm | 4px | Small elements (badges, chips) |
+| --radius-md | 6px | Buttons, inputs |
+| --radius-lg | 10px | Cards, panels |
+| --radius-xl | 14px | Modals, large containers |
 | --radius-full | 9999px | Pills, avatars |
+
+Base `--radius` for shadcn: `0.375rem` (6px)
 
 ---
 
 ## Shadows
 
-Warm-toned, subtle — concert hall lighting:
+Minimal, green-tinted warmth.
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| --shadow-sm | 0 1px 3px rgba(44,30,20,0.06), 0 1px 2px rgba(44,30,20,0.04) | Cards at rest |
-| --shadow-md | 0 4px 12px rgba(44,30,20,0.08), 0 2px 4px rgba(44,30,20,0.04) | Hover states |
-| --shadow-lg | 0 12px 32px rgba(44,30,20,0.10), 0 4px 8px rgba(44,30,20,0.06) | Dropdowns, modals |
-| --shadow-xl | 0 24px 48px rgba(44,30,20,0.12), 0 8px 16px rgba(44,30,20,0.06) | Floating elements |
+| --shadow-sm | 0 1px 3px rgba(28,58,46,0.06), 0 1px 2px rgba(28,58,46,0.04) | Cards at rest |
+| --shadow-md | 0 4px 12px rgba(28,58,46,0.08), 0 2px 4px rgba(28,58,46,0.04) | Hover states |
+| --shadow-lg | 0 12px 32px rgba(28,58,46,0.10), 0 4px 8px rgba(28,58,46,0.06) | Dropdowns, modals |
+| --shadow-xl | 0 24px 48px rgba(28,58,46,0.12), 0 8px 16px rgba(28,58,46,0.06) | Floating elements |
 
 ---
 
@@ -152,70 +182,4 @@ Warm-toned, subtle — concert hall lighting:
 | --easing-spring | cubic-bezier(0.34, 1.56, 0.64, 1) | Bouncy entrances |
 | --easing-out | cubic-bezier(0, 0, 0.2, 1) | Exit animations |
 
-**Signature Animation:** Musical staff lines as section dividers — five thin horizontal lines with notes/rests fading in as loading indicators. Interactive elements get a soft gold glow pulse on focus/hover.
-
----
-
-## CSS Custom Properties
-
-```css
-:root {
-  /* Typography */
-  --font-heading: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Outfit Variable', 'Outfit', system-ui, sans-serif;
-
-  /* Radius */
-  --radius: 0.3125rem;
-
-  /* Colors */
-  --background: #FAF5ED;
-  --foreground: #2C1E14;
-  --card: #FFFFFF;
-  --card-foreground: #2C1E14;
-  --popover: #FFFFFF;
-  --popover-foreground: #2C1E14;
-  --primary: #3D2B1F;
-  --primary-foreground: #FAF5ED;
-  --secondary: #F0E8DE;
-  --secondary-foreground: #3D2B1F;
-  --muted: #EDE6DB;
-  --muted-foreground: #8B7A66;
-  --accent: #C19A4B;
-  --accent-foreground: #2C1E14;
-  --destructive: #B83B3B;
-  --border: #DDD4C8;
-  --input: #D8CFC2;
-  --ring: #C19A4B;
-
-  /* Semantic */
-  --success: #3B8B5C;
-  --success-bg: rgba(59, 139, 92, 0.1);
-  --warning: #C49838;
-  --warning-bg: rgba(196, 152, 56, 0.1);
-  --error: #B83B3B;
-  --error-bg: rgba(184, 59, 59, 0.1);
-  --info: #5E8FAA;
-  --info-bg: rgba(94, 143, 170, 0.1);
-}
-
-.dark {
-  --background: #1A1510;
-  --foreground: #F0E8DE;
-  --card: #252018;
-  --card-foreground: #F0E8DE;
-  --popover: #252018;
-  --popover-foreground: #F0E8DE;
-  --primary: #C19A4B;
-  --primary-foreground: #1A1510;
-  --secondary: #302820;
-  --secondary-foreground: #F0E8DE;
-  --muted: #302820;
-  --muted-foreground: #9A8A78;
-  --accent: #C19A4B;
-  --accent-foreground: #1A1510;
-  --destructive: #D45858;
-  --border: rgba(240, 232, 222, 0.08);
-  --input: rgba(240, 232, 222, 0.12);
-  --ring: #C19A4B;
-}
-```
+**Signature Animation:** Sound-wave SVG dividers — thin waveform polylines that animate with a gentle ambient pulse on scroll-into-view. Used as section separators on landing page, loading indicators in app shell, and decorative accents on empty states. Waveform is subtle (opacity 0.06-0.12), uses the foreground color, and animates over 3-4 seconds with easeInOut. Never distracting — ambient, like background music.

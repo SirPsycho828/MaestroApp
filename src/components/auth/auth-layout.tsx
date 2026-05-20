@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { FadeIn } from "@/components/ui/animated";
-import { Music } from "lucide-react";
+import { WaveformLogo } from "@/components/ui/waveform-logo";
 import type { ReactNode } from "react";
 
 interface AuthLayoutProps {
@@ -23,15 +23,19 @@ export function AuthLayout({ children, heading, subheading }: AuthLayoutProps) {
         <div className="absolute inset-0 bg-primary/85" />
 
         <Link to="/" className="relative z-10 flex items-center gap-2.5">
-          <Music className="h-5 w-5 text-accent" />
+          <WaveformLogo className="h-5 w-5 text-accent" />
           <span className="font-serif text-lg font-semibold text-primary-foreground">TuneFolio</span>
         </Link>
 
         <div className="relative z-10 space-y-6">
-          {/* Staff lines decoration */}
-          <div className="flex flex-col gap-[6px] opacity-[0.12]">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-px w-full bg-primary-foreground" />
+          {/* Sound-wave decoration */}
+          <div className="flex items-end gap-[5px] opacity-[0.12]">
+            {[6, 14, 22, 30, 22, 14, 6].map((h, i) => (
+              <div
+                key={i}
+                className="w-[3px] rounded-full bg-primary-foreground"
+                style={{ height: h }}
+              />
             ))}
           </div>
 
@@ -57,7 +61,7 @@ export function AuthLayout({ children, heading, subheading }: AuthLayoutProps) {
         {/* Mobile logo */}
         <div className="mb-8 lg:hidden">
           <Link to="/" className="inline-flex items-center gap-2.5">
-            <Music className="h-6 w-6 text-accent" />
+            <WaveformLogo className="h-6 w-6 text-accent" />
             <span className="font-serif text-xl font-semibold">TuneFolio</span>
           </Link>
         </div>

@@ -8,10 +8,10 @@ import {
   MapPin,
   DollarSign,
   LogOut,
-  Music,
 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { WaveformLogo } from "@/components/ui/waveform-logo";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -32,16 +32,16 @@ export function TeacherSidebar() {
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex lg:w-60 lg:flex-col lg:border-r lg:border-sidebar-border lg:bg-sidebar">
         <div className="flex h-16 items-center gap-2.5 px-6">
-          <Music className="h-5 w-5 text-accent" />
+          <WaveformLogo className="h-5 w-5 text-accent" />
           <span className="font-serif text-lg font-semibold text-sidebar-foreground">
             TuneFolio
           </span>
         </div>
 
-        {/* Staff lines divider */}
-        <div className="mx-6 mb-3 flex flex-col gap-[3px] opacity-[0.06]">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-px w-full bg-sidebar-foreground" />
+        {/* Sound-wave divider */}
+        <div className="mx-6 mb-3 flex items-end gap-[4px] opacity-[0.06]">
+          {[4, 10, 16, 22, 16, 10, 4].map((h, i) => (
+            <div key={i} className="w-[2px] rounded-full bg-sidebar-foreground" style={{ height: h }} />
           ))}
         </div>
 

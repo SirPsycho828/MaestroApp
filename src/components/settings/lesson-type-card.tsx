@@ -30,14 +30,16 @@ export function LessonTypeCard({ lessonType, onEdit, onDelete }: LessonTypeCardP
       <div className="flex gap-1">
         <button
           onClick={onEdit}
-          className="rounded-lg p-2 text-muted-foreground hover:bg-primary/10 hover:text-foreground"
+          aria-label={`Edit ${lessonType.name}`}
+          className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <Pencil className="h-4 w-4" />
         </button>
         {onDelete && (
           <button
             onClick={onDelete}
-            className="rounded-lg p-2 text-muted-foreground hover:bg-primary/10 hover:text-error"
+            aria-label={`Delete ${lessonType.name}`}
+            className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-error focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Trash2 className="h-4 w-4" />
           </button>

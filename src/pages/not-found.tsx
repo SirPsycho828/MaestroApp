@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/ui/animated";
-import { Music } from "lucide-react";
+import { WaveformLogo } from "@/components/ui/waveform-logo";
 
 export default function NotFoundPage() {
   return (
@@ -11,7 +11,7 @@ export default function NotFoundPage() {
       </div>
 
       <FadeIn className="relative z-10">
-        <Music className="mx-auto h-10 w-10 text-accent/30" />
+        <WaveformLogo className="mx-auto h-10 w-10 text-accent/30" />
         <h1 className="mt-6 font-serif text-7xl font-semibold text-foreground">404</h1>
         <p className="mt-4 text-lg text-muted-foreground">
           This page doesn&apos;t exist — like a rest that lasts forever.

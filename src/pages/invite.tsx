@@ -5,7 +5,8 @@ import { db } from "@/lib/firebase";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Music, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
+import { WaveformLogo } from "@/components/ui/waveform-logo";
 import { FadeIn } from "@/components/ui/animated";
 
 interface InviteData {
@@ -168,7 +169,7 @@ export default function InvitePage() {
       <Card className="border-border/40">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-accent/20 bg-accent/[0.06]">
-            <Music className="h-7 w-7 text-accent" />
+            <WaveformLogo className="h-7 w-7 text-accent" />
           </div>
           <CardTitle className="font-serif text-2xl">
             You&apos;ve been invited by{" "}
