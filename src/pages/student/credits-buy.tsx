@@ -152,7 +152,7 @@ export default function CreditsBuyPage() {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
-            <h1 className="text-2xl font-bold font-serif">Buy Credits</h1>
+            <h1 className="text-2xl font-semibold font-serif">Buy Credits</h1>
             <p className="text-sm text-muted-foreground">
               {teacherName} &middot; Current balance: {balance} credits
             </p>

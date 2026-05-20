@@ -8,10 +8,10 @@ import {
   MapPin,
   DollarSign,
   LogOut,
-  Music,
 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { WaveformLogo } from "@/components/ui/waveform-logo";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -31,38 +31,54 @@ export function TeacherSidebar() {
     <>
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex lg:w-60 lg:flex-col lg:border-r lg:border-sidebar-border lg:bg-sidebar">
-        <div className="flex h-16 items-center gap-2 px-6">
-          <Music className="h-5 w-5 text-sidebar-primary" />
-          <span className="font-serif text-lg font-bold text-sidebar-foreground">
+        <div className="flex h-16 items-center gap-2.5 px-6">
+          <WaveformLogo className="h-5 w-5 text-accent" />
+          <span className="font-serif text-lg font-semibold text-sidebar-foreground">
             TuneFolio
           </span>
         </div>
-        <nav className="flex-1 space-y-1 px-3 py-2">
+
+        {/* Sound-wave divider */}
+        <div className="mx-6 mb-3 flex items-end gap-[4px] opacity-[0.06]">
+          {[4, 10, 16, 22, 16, 10, 4].map((h, i) => (
+            <div key={i} className="w-[2px] rounded-full bg-sidebar-foreground" style={{ height: h }} />
+          ))}
+        </div>
+
+        <nav className="flex-1 space-y-0.5 px-3">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  "group relative flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all duration-150",
                   isActive
-                    ? "bg-sidebar-primary/10 text-sidebar-primary"
-                    : "text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                    ? "bg-sidebar-accent text-sidebar-foreground"
+                    : "text-sidebar-foreground/55 hover:bg-sidebar-accent/60 hover:text-sidebar-foreground"
                 )
               }
             >
-              <item.icon className="h-5 w-5" />
-              {item.label}
+              {({ isActive }) => (
+                <>
+                  {isActive && (
+                    <div className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-full bg-accent" />
+                  )}
+                  <item.icon className={cn("h-[18px] w-[18px]", isActive && "text-accent")} />
+                  {item.label}
+                </>
+              )}
             </NavLink>
           ))}
         </nav>
+
         <div className="border-t border-sidebar-border p-3">
           <div className="flex items-center justify-between px-3">
             <button
               onClick={signOut}
-              className="flex items-center gap-3 rounded-lg py-2 text-sm font-medium text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors"
+              className="flex items-center gap-3 rounded-md py-2 text-sm font-medium text-sidebar-foreground/50 transition-colors hover:text-sidebar-foreground"
             >
-              <LogOut className="h-5 w-5" />
+              <LogOut className="h-[18px] w-[18px]" />
               Sign out
             </button>
             <ThemeToggle />
@@ -71,15 +87,15 @@ export function TeacherSidebar() {
       </aside>
 
       {/* Mobile bottom bar */}
-      <nav className="fixed inset-x-0 bottom-0 z-50 flex border-t border-border bg-card/90 backdrop-blur-xl lg:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-50 flex border-t border-border bg-card/95 backdrop-blur-xl lg:hidden">
         {navItems.slice(0, 5).map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             className={({ isActive }) =>
               cn(
-                "flex flex-1 flex-col items-center gap-1 py-2 text-xs font-medium transition-colors",
-                isActive ? "text-primary" : "text-muted-foreground"
+                "flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors",
+                isActive ? "text-accent" : "text-muted-foreground"
               )
             }
           >

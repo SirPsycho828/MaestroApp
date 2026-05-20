@@ -130,7 +130,7 @@ export default function SchedulePage() {
   return (
     <FadeIn>
     <div className="mx-auto max-w-3xl space-y-6 p-6">
-      <h1 className="font-serif text-2xl font-bold">Schedule</h1>
+      <h1 className="font-serif text-2xl font-semibold">Schedule</h1>
 
       {/* Week navigation */}
       <div className="flex items-center justify-between">

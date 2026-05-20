@@ -214,7 +214,7 @@ export default function PricingPage() {
   if (!stripeOnboarded) {
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold font-serif">Pricing</h1>
+        <h1 className="text-2xl font-semibold font-serif">Pricing</h1>
         <Card className="text-center">
           <CardHeader>
             <CreditCard className="mx-auto h-12 w-12 text-muted-foreground" />
@@ -239,7 +239,7 @@ export default function PricingPage() {
     <FadeIn>
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold font-serif">Pricing</h1>
+        <h1 className="text-2xl font-semibold font-serif">Pricing</h1>
         <Badge variant="outline" className="gap-1 text-green-700 border-green-300 bg-green-50">
           <CheckCircle className="h-3 w-3" />
           Stripe Connected

@@ -78,7 +78,7 @@ export default function StudentsPage() {
     <FadeIn>
     <div className="mx-auto max-w-4xl space-y-8 p-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl font-bold">Students</h1>
+        <h1 className="font-serif text-2xl font-semibold">Students</h1>
         <InviteDialog onInviteCreated={loadData} />
       </div>
 
