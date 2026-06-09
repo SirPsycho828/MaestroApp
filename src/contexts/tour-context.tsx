@@ -85,14 +85,16 @@ export function TourProvider({ children }: { children: ReactNode }) {
   const [run, setRun] = useState(false);
 
   useEffect(() => {
-    const pending = localStorage.getItem(TOUR_PENDING_KEY);
-    if (pending === "true") {
-      const timer = setTimeout(() => {
-        localStorage.removeItem(TOUR_PENDING_KEY);
-        setRun(true);
-      }, 800);
-      return () => clearTimeout(timer);
-    }
+    const completed = localStorage.getItem(TOUR_COMPLETED_KEY);
+    if (completed === "true") return;
+
+    // Auto-start for ANY user who hasn't completed the tour,
+    // including existing users who signed up before the tour existed.
+    const timer = setTimeout(() => {
+      localStorage.removeItem(TOUR_PENDING_KEY);
+      setRun(true);
+    }, 800);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleEvent = useCallback((data: EventData, _controls: Controls) => {
