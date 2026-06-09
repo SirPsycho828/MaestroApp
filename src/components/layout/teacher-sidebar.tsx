@@ -7,6 +7,7 @@ import {
   ListMusic,
   MapPin,
   DollarSign,
+  Settings,
   LogOut,
 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
@@ -15,13 +16,14 @@ import { WaveformLogo } from "@/components/ui/waveform-logo";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/students", label: "Students", icon: Users },
-  { to: "/availability", label: "Availability", icon: Calendar },
-  { to: "/lessons", label: "Lessons", icon: BookOpen },
-  { to: "/lesson-types", label: "Lesson Types", icon: ListMusic },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, tourId: "dashboard" },
+  { to: "/students", label: "Students", icon: Users, tourId: "students" },
+  { to: "/availability", label: "Availability", icon: Calendar, tourId: "availability" },
+  { to: "/lessons", label: "Lessons", icon: BookOpen, tourId: "lessons" },
+  { to: "/lesson-types", label: "Lesson Types", icon: ListMusic, tourId: "lesson-types" },
   { to: "/settings/locations", label: "Locations", icon: MapPin },
-  { to: "/settings/pricing", label: "Pricing", icon: DollarSign },
+  { to: "/settings/pricing", label: "Pricing", icon: DollarSign, tourId: "pricing" },
+  { to: "/settings", label: "Settings", icon: Settings, tourId: "settings" },
 ];
 
 export function TeacherSidebar() {
@@ -50,6 +52,7 @@ export function TeacherSidebar() {
             <NavLink
               key={item.to}
               to={item.to}
+              data-tour={item.tourId}
               className={({ isActive }) =>
                 cn(
                   "group relative flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all duration-150",

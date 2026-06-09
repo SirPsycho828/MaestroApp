@@ -1,10 +1,12 @@
 import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
+import { Check, Music } from "lucide-react";
 
 const STEPS = [
-  { label: "Profile", step: 1 },
-  { label: "Lessons", step: 2 },
-  { label: "Availability", step: 3 },
+  { label: "Welcome", step: 1 },
+  { label: "Profile", step: 2 },
+  { label: "Lessons", step: 3 },
+  { label: "Availability", step: 4 },
+  { label: "Done", step: 5 },
 ];
 
 interface WizardStepperProps {
@@ -29,8 +31,12 @@ export function WizardStepper({ currentStep }: WizardStepperProps) {
             >
               {s.step < currentStep ? (
                 <Check className="h-4 w-4" />
+              ) : s.step === 1 ? (
+                <Music className="h-4 w-4" />
+              ) : s.step === 5 ? (
+                <Check className="h-4 w-4" />
               ) : (
-                s.step
+                s.step - 1
               )}
             </div>
             <span
@@ -45,7 +51,7 @@ export function WizardStepper({ currentStep }: WizardStepperProps) {
           {i < STEPS.length - 1 && (
             <div
               className={cn(
-                "mx-2 mb-5 h-0.5 w-12 sm:w-20",
+                "mx-2 mb-5 h-0.5 w-8 sm:w-12",
                 s.step < currentStep ? "bg-primary" : "bg-muted"
               )}
             />
