@@ -4,6 +4,8 @@ import { db } from "@/lib/firebase";
 import { useAuth } from "@/contexts/auth-context";
 import { LocationForm } from "@/components/settings/location-form";
 import { LocationCard } from "@/components/settings/location-card";
+import { ConfirmDialog } from "@/components/ux/confirm-dialog";
+import { GuidanceTip } from "@/components/ux/guidance-tip";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Plus, MapPin, Loader2 } from "lucide-react";
@@ -17,6 +19,7 @@ export default function LocationsPage() {
   const [submitting, setSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; id?: string }>({ open: false });
 
   useEffect(() => {
     if (!firebaseUser) return;
@@ -116,6 +119,12 @@ export default function LocationsPage() {
           />
         )}
 
+        {locations.length > 0 && (
+          <GuidanceTip id="locations-lesson-type-hint">
+            Assign locations to your lesson types so students know where lessons happen.
+          </GuidanceTip>
+        )}
+
         {locations.length === 0 && !showForm ? (
           <div className="flex flex-col items-center rounded-xl border border-dashed border-border bg-card px-6 py-12 text-center">
             <MapPin className="h-8 w-8 text-muted-foreground/50" />
@@ -144,7 +153,7 @@ export default function LocationsPage() {
                     setShowForm(false);
                   }}
                   onToggleActive={(active) => handleToggleActive(loc.id, active)}
-                  onDelete={() => handleDelete(loc.id)}
+                  onDelete={() => setDeleteConfirm({ open: true, id: loc.id })}
                 />
               )
             )}
@@ -170,7 +179,7 @@ export default function LocationsPage() {
                         setShowForm(false);
                       }}
                       onToggleActive={(active) => handleToggleActive(loc.id, active)}
-                      onDelete={() => handleDelete(loc.id)}
+                      onDelete={() => setDeleteConfirm({ open: true, id: loc.id })}
                     />
                   )
                 )}
@@ -178,6 +187,19 @@ export default function LocationsPage() {
             )}
           </div>
         )}
+
+        <ConfirmDialog
+          open={deleteConfirm.open}
+          onOpenChange={(open) => setDeleteConfirm({ ...deleteConfirm, open })}
+          title="Delete location?"
+          description="This will permanently remove this location. Lesson types using it won't be affected."
+          confirmLabel="Delete"
+          variant="destructive"
+          onConfirm={() => {
+            handleDelete(deleteConfirm.id!);
+            setDeleteConfirm({ open: false });
+          }}
+        />
       </div>
     </FadeIn>
   );

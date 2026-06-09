@@ -1,6 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Music } from "lucide-react";
 import { formatDuration, formatPrice } from "@/lib/time-utils";
 import { cn } from "@/lib/utils";
+import { EmptyState } from "@/components/ux/empty-state";
 import type { LessonType } from "@/types";
 
 interface LessonTypeWithId {
@@ -15,6 +17,16 @@ interface LessonTypePickerProps {
 }
 
 export function LessonTypePicker({ lessonTypes, selected, onSelect }: LessonTypePickerProps) {
+  if (lessonTypes.length === 0) {
+    return (
+      <EmptyState
+        icon={<Music className="h-6 w-6" />}
+        title="No lesson types available"
+        description="Your teacher hasn't set up lesson types yet. Check back soon or contact them directly."
+      />
+    );
+  }
+
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Choose a Lesson Type</h2>

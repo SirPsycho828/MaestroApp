@@ -15,7 +15,8 @@ import app from "@/lib/firebase";
 import { useAuth } from "@/contexts/auth-context";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, Calendar, XCircle } from "lucide-react";
+import { Loader2, Calendar, XCircle, Users } from "lucide-react";
+import { EmptyState } from "@/components/ux/empty-state";
 import { formatTime, formatLongDate, formatDuration, addMinutesToTime } from "@/lib/time-utils";
 import { toast } from "sonner";
 import type { Lesson } from "@/types";
@@ -152,7 +153,7 @@ export default function StudentHome() {
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-accent" />
       </div>
     );
   }
@@ -160,7 +161,7 @@ export default function StudentHome() {
   return (
     <FadeIn>
       <div className="mx-auto max-w-2xl space-y-8 p-6">
-        <h1 className="text-2xl font-bold font-serif">
+        <h1 className="text-2xl font-semibold font-serif">
           Welcome{userDoc?.displayName ? `, ${userDoc.displayName}` : ""}
         </h1>
 
@@ -168,7 +169,11 @@ export default function StudentHome() {
         <section className="space-y-3">
           <h2 className="text-lg font-semibold">Your Teachers</h2>
           {teachers.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No teachers yet</p>
+            <EmptyState
+              icon={<Users className="h-5 w-5" />}
+              title="No teachers yet"
+              description="Ask your teacher for an invite link to get connected and start booking lessons."
+            />
           ) : (
             <StaggerContainer className="grid gap-3 sm:grid-cols-2">
               {teachers.map((t) => (

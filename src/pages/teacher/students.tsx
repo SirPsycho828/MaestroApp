@@ -13,6 +13,8 @@ import { InviteDialog } from "@/components/students/invite-dialog";
 import { InviteList } from "@/components/students/invite-list";
 import { StudentRoster } from "@/components/students/student-roster";
 import { Loader2 } from "lucide-react";
+import { PageIntro } from "@/components/ux/page-intro";
+import { StatusSummary } from "@/components/ux/status-summary";
 import type { Invite, TeacherStudent } from "@/types";
 
 interface InviteWithId {
@@ -78,9 +80,27 @@ export default function StudentsPage() {
     <FadeIn>
     <div className="mx-auto max-w-4xl space-y-8 p-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl font-bold">Students</h1>
+        <h1 className="font-serif text-2xl font-semibold">Students</h1>
         <InviteDialog onInviteCreated={loadData} />
       </div>
+      <PageIntro>
+        Invite students to connect with your studio. They'll be able to book lessons and purchase credits.
+      </PageIntro>
+
+      {(students.length > 0 || invites.length > 0) && (
+        <StatusSummary
+          items={[
+            {
+              label: "Active Students",
+              value: students.filter((s) => s.data.status === "active").length,
+            },
+            {
+              label: "Pending Invites",
+              value: invites.length,
+            },
+          ]}
+        />
+      )}
 
       <StudentRoster students={students} onStatusChanged={loadData} />
 

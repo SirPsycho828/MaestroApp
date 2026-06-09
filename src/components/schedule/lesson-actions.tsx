@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
+import { ConfirmDialog } from "@/components/ux/confirm-dialog";
 
 const functions = getFunctions(app);
 
@@ -25,6 +26,7 @@ export function LessonActions({
 }: LessonActionsProps) {
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState("");
+  const [confirmAction, setConfirmAction] = useState<"cancel" | "noShow" | null>(null);
 
   const lessonEndTime = scheduledAt.getTime() + durationMinutes * 60000;
   const isPast = Date.now() >= lessonEndTime;
@@ -85,7 +87,7 @@ export function LessonActions({
             <Button
               size="sm"
               variant="outline"
-              onClick={() => callFunction("markNoShow", { lessonId })}
+              onClick={() => setConfirmAction("noShow")}
               disabled={!!loading}
               className="text-red-600 hover:bg-red-50"
             >
@@ -101,7 +103,7 @@ export function LessonActions({
         <Button
           size="sm"
           variant="outline"
-          onClick={() => callFunction("cancelLesson", { lessonId })}
+          onClick={() => setConfirmAction("cancel")}
           disabled={!!loading}
         >
           {loading === "cancelLesson" ? (
@@ -112,6 +114,28 @@ export function LessonActions({
           Cancel
         </Button>
       </div>
+
+      <ConfirmDialog
+        open={confirmAction === "cancel"}
+        onOpenChange={(open) => !open && setConfirmAction(null)}
+        title="Cancel this lesson?"
+        description="The student will be notified and their credit will be returned."
+        confirmLabel="Cancel Lesson"
+        variant="destructive"
+        onConfirm={() => { setConfirmAction(null); callFunction("cancelLesson", { lessonId }); }}
+        loading={loading === "cancelLesson"}
+      />
+
+      <ConfirmDialog
+        open={confirmAction === "noShow"}
+        onOpenChange={(open) => !open && setConfirmAction(null)}
+        title="Mark as no-show?"
+        description="The student's credit will not be returned. Only use this if the student didn't attend."
+        confirmLabel="Mark No-Show"
+        variant="destructive"
+        onConfirm={() => { setConfirmAction(null); callFunction("markNoShow", { lessonId }); }}
+        loading={loading === "markNoShow"}
+      />
     </div>
   );
 }

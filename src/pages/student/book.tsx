@@ -162,7 +162,7 @@ export default function BookPage() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-accent" />
       </div>
     );
   }
@@ -189,7 +189,7 @@ export default function BookPage() {
           {step > 1 ? "Back" : "Home"}
         </button>
 
-        <h1 className="text-2xl font-bold font-serif text-foreground">Book with {teacherName}</h1>
+        <h1 className="text-2xl font-semibold font-serif text-foreground">Book with {teacherName}</h1>
 
         <div className="mt-2 mb-6 flex gap-2">
           {[1, 2, 3].map((s) => (
@@ -230,6 +230,7 @@ export default function BookPage() {
                 startTime={selectedTime}
                 timezone={timezone}
                 creditBalance={creditBalance}
+                teacherId={teacherId}
                 onConfirm={handleConfirm}
                 onBack={() => setStep(2)}
                 confirming={confirming}

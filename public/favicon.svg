@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .bg { fill: #1C3A2E; }
+    .wave { fill: #C26843; }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #F8F5F0; }
+      .wave { fill: #1C3A2E; }
+    }
+  </style>
+  <rect class="bg" width="32" height="32" rx="7"/>
+  <!-- Sound waveform bars -->
+  <rect class="wave" x="6" y="13" width="2.5" height="6" rx="1.25"/>
+  <rect class="wave" x="10.5" y="9" width="2.5" height="14" rx="1.25"/>
+  <rect class="wave" x="15" y="5" width="2.5" height="22" rx="1.25"/>
+  <rect class="wave" x="19.5" y="10" width="2.5" height="12" rx="1.25"/>
+  <rect class="wave" x="24" y="12" width="2.5" height="8" rx="1.25"/>
+</svg>

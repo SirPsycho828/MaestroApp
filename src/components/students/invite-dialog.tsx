@@ -100,6 +100,7 @@ export function InviteDialog({ onInviteCreated }: InviteDialogProps) {
                 variant="outline"
                 size="icon"
                 onClick={handleCopy}
+                aria-label={copied ? "Link copied" : "Copy invite link"}
               >
                 {copied ? (
                   <Check className="h-4 w-4 text-success" />

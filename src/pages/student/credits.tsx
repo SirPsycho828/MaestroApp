@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, CreditCard, Plus, Settings } from "lucide-react";
 import type { StudentCredits, TeacherStudent } from "@/types";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/animated";
+import { PageIntro } from "@/components/ux/page-intro";
 
 type CreditInfo = {
   creditDocId: string;
@@ -75,7 +76,7 @@ export default function CreditsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-accent" />
       </div>
     );
   }
@@ -84,7 +85,7 @@ export default function CreditsPage() {
     return (
       <FadeIn>
         <div className="space-y-6">
-          <h1 className="text-2xl font-bold font-serif">Credits</h1>
+          <h1 className="text-2xl font-semibold font-serif">Credits</h1>
           <Card className="text-center">
             <CardContent className="py-12">
               <CreditCard className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
@@ -101,7 +102,8 @@ export default function CreditsPage() {
   return (
     <FadeIn>
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold font-serif">Credits</h1>
+        <h1 className="text-2xl font-semibold font-serif">Your Credits</h1>
+        <PageIntro>View your credit balance for each teacher and manage subscriptions.</PageIntro>
 
         <StaggerContainer className="space-y-4">
           {credits.map((c) => {
