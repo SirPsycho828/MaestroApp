@@ -1,7 +1,7 @@
 # UX Intuitiveness State
 
-## Current Phase: 7 (Verify & Deploy)
-## Completed: [1, 2, 3, 4, 5, 6]
+## Current Phase: Complete
+## Completed: [1, 2, 3, 4, 5, 6, 7]
 
 ## Phase 1 (Discovery) — Complete
 - [x] Step 1: Read project identity
@@ -13,11 +13,46 @@
 - [x] Step 7: Output discovery summary
 - [x] Step 8: Write state file
 
-## Phase 6 (Onboarding) — Skipped
-- [x] Step 1: Assess need
-- [ ] Steps 2-8: Skipped — not needed
+## Phase 6 (Onboarding) — Complete
+- [x] Step 1: Fetch library docs (React Joyride v3 via Context7)
+- [x] Step 2: Design setup wizard (Welcome + Done steps added to existing 3-step wizard)
+- [x] Step 3: Design app tour (7 stops targeting sidebar nav items)
+- [x] Step 4: Design settings integration (Restart Wizard + Replay Tour buttons)
+- [x] Step 5: Implement setup wizard (Welcome step, Done step with confetti, 5-step stepper)
+- [x] Step 6: Implement site tour (TourProvider, custom TourTooltip, data-tour attributes)
+- [x] Step 7: Implement settings integration (Settings page at /settings, sidebar nav item)
+- [x] Step 8: Verify build (tsc --noEmit + vite build pass clean)
+- [x] Step 9: Commit (feat/onboarding-tour branch, PR #4 merged; tour auto-start fix PR #5 merged)
+- [x] Step 10: Update state
 
-**Reason:** App already has a 3-step setup wizard enforced by SetupGuard. Phase 5 improvements (PageIntro, GuidanceTip, NextStepCard, dashboard onboarding checklist) serve the guidance role that a tour would provide. Adding a separate tour or second wizard would be over-engineering.
+### Onboarding Components
+| Component | File | Purpose |
+|-----------|------|---------|
+| TourTooltip | `src/components/tour/tour-tooltip.tsx` | Custom Acoustic-styled Joyride tooltip |
+| TourProvider | `src/contexts/tour-context.tsx` | Tour state, auto-start, Joyride wrapper |
+| SettingsPage | `src/pages/teacher/settings/index.tsx` | Re-run wizard/tour controls |
+
+### Tour Stops (7)
+1. Dashboard — "See your upcoming lessons, student count, and quick actions"
+2. Students — "Invite students, track their status, and manage your roster"
+3. Availability — "Define your weekly teaching schedule"
+4. Lessons — "View and manage scheduled lessons"
+5. Lesson Types — "Create different lesson offerings"
+6. Pricing — "Connect Stripe and set up subscription plans or credit packs"
+7. Settings — "Manage your profile, locations, and replay this tour"
+
+## Phase 7 (Verify & Deploy) — Complete
+- [x] Step 1: Final build (tsc --noEmit + vite build pass clean)
+- [x] Step 2: Re-walk workflows — skipped: no .env.local for Firebase dev server
+- [x] Step 3: Re-score all pages (before/after in audit report)
+- [x] Step 4: Anti-pattern final sweep (all 8 patterns clear)
+- [x] Step 5: Clean up test account — N/A (none created)
+- [x] Step 6: Commit (multiple PRs: #3, #4, #5)
+- [x] Step 7: Create PRs (#3 UX findings, #4 onboarding, #5 tour auto-start)
+- [x] Step 8: Merge PRs (all merged)
+- [x] Step 9: Deploy (Firebase Hosting, https://tunefolio-dev.web.app)
+- [x] Step 10: Update audit report (Results section added)
+- [x] Step 11: Final report presented
 
 ## Phase 5 (Implementation) — Complete
 - [x] Step 1: Load anti-patterns reference
