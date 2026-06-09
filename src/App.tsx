@@ -24,6 +24,7 @@ import SchedulePage from "@/pages/teacher/schedule";
 import StripeSetupPage from "@/pages/stripe/setup";
 import StripeCallbackPage from "@/pages/stripe/callback";
 import PricingPage from "@/pages/teacher/settings/pricing";
+import SettingsPage from "@/pages/teacher/settings/index";
 import CreditsPage from "@/pages/student/credits";
 import CreditsBuyPage from "@/pages/student/credits-buy";
 import CreditsSuccessPage from "@/pages/student/credits-success";
@@ -68,6 +69,7 @@ export default function App() {
                   <Route path="/availability" element={<AvailabilityPage />} />
                   <Route path="/lessons" element={<SchedulePage />} />
                   <Route path="/settings/pricing" element={<PricingPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
                 </Route>
               </Route>
 
