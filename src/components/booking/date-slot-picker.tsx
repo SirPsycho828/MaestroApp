@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
+import { CalendarX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { EmptyState } from "@/components/ux/empty-state";
 import { formatTime, formatShortDate, addMinutesToTime, nextNDays, formatTimezone } from "@/lib/time-utils";
 
 interface SlotWindow {
@@ -65,6 +67,23 @@ export function DateSlotPicker({
     }
     return starts;
   }, [dayWindows, durationMinutes]);
+
+  if (slots.length === 0) {
+    return (
+      <div className="space-y-4">
+        <EmptyState
+          icon={<CalendarX className="h-6 w-6" />}
+          title="No availability"
+          description="No available time slots in the next 30 days. Your teacher may need to update their availability."
+        />
+        <div className="flex justify-center">
+          <Button variant="ghost" onClick={onBack}>
+            Go Back
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

@@ -19,6 +19,9 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { FadeIn } from "@/components/ui/animated";
+import { PageIntro } from "@/components/ux/page-intro";
+import { GuidanceTip } from "@/components/ux/guidance-tip";
+import { ConfirmDialog } from "@/components/ux/confirm-dialog";
 import type { Availability } from "@/types";
 
 interface OverrideWithId {
@@ -37,6 +40,7 @@ export default function AvailabilityPage() {
   );
   const [overrides, setOverrides] = useState<OverrideWithId[]>([]);
   const [showOverrideForm, setShowOverrideForm] = useState(false);
+  const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
 
   const isDirty =
     selectedSlots.size !== savedSlots.size ||
@@ -117,7 +121,7 @@ export default function AvailabilityPage() {
       );
 
       setSavedSlots(new Set(selectedSlots));
-      toast.success("Schedule saved");
+      toast.success("Schedule saved. Students can now see your updated availability.");
     } catch {
       toast.error("Failed to save schedule");
     } finally {
@@ -128,6 +132,7 @@ export default function AvailabilityPage() {
   // Discard changes
   const handleDiscard = () => {
     setSelectedSlots(new Set(savedSlots));
+    setShowDiscardConfirm(false);
   };
 
   // Add override
@@ -211,6 +216,9 @@ export default function AvailabilityPage() {
     <FadeIn>
       <div className="mx-auto max-w-4xl space-y-8 p-6">
         <h1 className="text-2xl font-semibold font-serif">Availability</h1>
+        <PageIntro>
+          Set your weekly teaching hours and add date-specific overrides. Students see these times when booking lessons.
+        </PageIntro>
 
         {/* Weekly Schedule */}
         <section className="space-y-4">
@@ -219,12 +227,16 @@ export default function AvailabilityPage() {
             {isDirty && (
               <div className="flex items-center gap-2">
                 <span className="text-sm text-warning">Unsaved changes</span>
-                <Button variant="ghost" size="sm" onClick={handleDiscard}>
+                <Button variant="ghost" size="sm" onClick={() => setShowDiscardConfirm(true)}>
                   Discard
                 </Button>
               </div>
             )}
           </div>
+
+          <GuidanceTip id="availability-grid-hint">
+            Click or drag on the grid to select time slots when you're available to teach. Hit "Save Schedule" when you're done.
+          </GuidanceTip>
 
           <AvailabilityGrid
             value={selectedSlots}
@@ -263,6 +275,16 @@ export default function AvailabilityPage() {
           <OverrideList overrides={overrides} onDelete={handleDeleteOverride} />
         </section>
       </div>
+
+      <ConfirmDialog
+        open={showDiscardConfirm}
+        onOpenChange={setShowDiscardConfirm}
+        title="Discard changes?"
+        description="Your unsaved changes to the weekly schedule will be lost."
+        confirmLabel="Discard"
+        variant="destructive"
+        onConfirm={handleDiscard}
+      />
     </FadeIn>
   );
 }

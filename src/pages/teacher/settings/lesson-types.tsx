@@ -13,10 +13,12 @@ import { db } from "@/lib/firebase";
 import { useAuth } from "@/contexts/auth-context";
 import { LessonTypeForm } from "@/components/setup/lesson-type-form";
 import { LessonTypeCard } from "@/components/settings/lesson-type-card";
+import { ConfirmDialog } from "@/components/ux/confirm-dialog";
+import { NextStepCard } from "@/components/ux/next-step-card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
-import { Plus, BookOpen, Loader2 } from "lucide-react";
+import { Plus, BookOpen, Loader2, Calendar } from "lucide-react";
 import { FadeIn } from "@/components/ui/animated";
 import type { LessonType } from "@/types";
 
@@ -27,15 +29,20 @@ export default function LessonTypesPage() {
   const [submitting, setSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [toggleConfirm, setToggleConfirm] = useState<{ open: boolean; id?: string; active?: boolean }>({ open: false });
+  const [hasAvailability, setHasAvailability] = useState(true);
 
   useEffect(() => {
     if (!firebaseUser) return;
-    getDocs(
-      query(collection(db, "lessonTypes"), where("teacherId", "==", firebaseUser.uid))
-    ).then((snap) => {
+    const uid = firebaseUser.uid;
+    Promise.all([
+      getDocs(query(collection(db, "lessonTypes"), where("teacherId", "==", uid))),
+      getDocs(query(collection(db, "availability"), where("teacherId", "==", uid))),
+    ]).then(([ltSnap, availSnap]) => {
       setLessonTypes(
-        snap.docs.map((d) => ({ id: d.id, ...(d.data() as LessonType) }))
+        ltSnap.docs.map((d) => ({ id: d.id, ...(d.data() as LessonType) }))
       );
+      setHasAvailability(availSnap.size > 0);
       setLoading(false);
     });
   }, [firebaseUser]);
@@ -213,7 +220,9 @@ export default function LessonTypesPage() {
                   </div>
                   <Switch
                     checked={lt.active}
-                    onCheckedChange={(active) => handleToggleActive(lt.id, active)}
+                    onCheckedChange={(active) =>
+                      setToggleConfirm({ open: true, id: lt.id, active })
+                    }
                   />
                 </div>
               )
@@ -245,7 +254,9 @@ export default function LessonTypesPage() {
                       </div>
                       <Switch
                         checked={lt.active}
-                        onCheckedChange={(active) => handleToggleActive(lt.id, active)}
+                        onCheckedChange={(active) =>
+                          setToggleConfirm({ open: true, id: lt.id, active })
+                        }
                       />
                     </div>
                   )
@@ -254,6 +265,32 @@ export default function LessonTypesPage() {
             )}
           </div>
         )}
+
+        {lessonTypes.length > 0 && !hasAvailability && (
+          <NextStepCard
+            title="Set your availability"
+            description="Students need to see when you're free before they can book."
+            to="/availability"
+            icon={<Calendar className="h-5 w-5" />}
+          />
+        )}
+
+        <ConfirmDialog
+          open={toggleConfirm.open}
+          onOpenChange={(open) => setToggleConfirm({ ...toggleConfirm, open })}
+          title={toggleConfirm.active ? "Activate lesson type?" : "Deactivate lesson type?"}
+          description={
+            toggleConfirm.active
+              ? "This lesson type will become bookable by students again."
+              : "Students won't be able to book this lesson type while it's inactive. Existing bookings are not affected."
+          }
+          confirmLabel={toggleConfirm.active ? "Activate" : "Deactivate"}
+          variant={toggleConfirm.active ? "default" : "destructive"}
+          onConfirm={() => {
+            handleToggleActive(toggleConfirm.id!, toggleConfirm.active!);
+            setToggleConfirm({ open: false });
+          }}
+        />
       </div>
     </FadeIn>
   );

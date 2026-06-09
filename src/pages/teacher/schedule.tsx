@@ -14,8 +14,10 @@ import { useAuth } from "@/contexts/auth-context";
 import { LessonCard } from "@/components/schedule/lesson-card";
 import { LessonActions } from "@/components/schedule/lesson-actions";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { formatLongDate } from "@/lib/time-utils";
+import { PageIntro } from "@/components/ux/page-intro";
 import type { Lesson } from "@/types";
 
 interface LessonWithMeta {
@@ -130,7 +132,13 @@ export default function SchedulePage() {
   return (
     <FadeIn>
     <div className="mx-auto max-w-3xl space-y-6 p-6">
-      <h1 className="font-serif text-2xl font-semibold">Schedule</h1>
+      <div className="flex items-center gap-3">
+        <h1 className="font-serif text-2xl font-semibold">Schedule</h1>
+        {!loading && lessons.length > 0 && (
+          <Badge variant="secondary">{lessons.length} lesson{lessons.length !== 1 ? "s" : ""}</Badge>
+        )}
+      </div>
+      <PageIntro>View and manage your scheduled lessons. Mark lessons complete after they happen.</PageIntro>
 
       {/* Week navigation */}
       <div className="flex items-center justify-between">

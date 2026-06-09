@@ -184,6 +184,9 @@ export default function CreditsBuyPage() {
         {plans.length > 0 && (
           <section className="space-y-3">
             <h2 className="text-lg font-semibold">Monthly Subscriptions</h2>
+            <p className="text-sm text-muted-foreground">
+              Subscribe for automatic monthly credits. Cancel anytime.
+            </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {plans.map((plan) => (
                 <Card key={plan.id}>
@@ -222,6 +225,9 @@ export default function CreditsBuyPage() {
         {packs.length > 0 && (
           <section className="space-y-3">
             <h2 className="text-lg font-semibold">Credit Packs</h2>
+            <p className="text-sm text-muted-foreground">
+              One-time purchase. Use credits to book individual lessons.
+            </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {packs.map((pack) => (
                 <Card key={pack.id}>

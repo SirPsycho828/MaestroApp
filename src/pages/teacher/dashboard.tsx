@@ -21,9 +21,13 @@ import {
   Loader2,
   Clock,
   BookOpen,
+  UserPlus,
 } from "lucide-react";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/animated";
 import { formatTime, formatLongDate, addMinutesToTime } from "@/lib/time-utils";
+import { NextStepCard } from "@/components/ux/next-step-card";
+import { PageIntro } from "@/components/ux/page-intro";
+import { EmptyState } from "@/components/ux/empty-state";
 import type { Lesson } from "@/types";
 
 interface UpcomingLesson {
@@ -40,20 +44,34 @@ export default function TeacherDashboard() {
   const [todayLessonCount, setTodayLessonCount] = useState(0);
   const [weekLessonCount, setWeekLessonCount] = useState(0);
   const [upcoming, setUpcoming] = useState<UpcomingLesson[]>([]);
+  const [stripeOnboarded, setStripeOnboarded] = useState(true);
+  const [lessonTypeCount, setLessonTypeCount] = useState(0);
 
   useEffect(() => {
     if (!firebaseUser) return;
     const uid = firebaseUser.uid;
 
     (async () => {
-      const studentSnap = await getDocs(
-        query(
-          collection(db, "teacherStudents"),
-          where("teacherId", "==", uid),
-          where("status", "==", "active")
-        )
-      );
+      const [studentSnap, profileSnap, lessonTypeSnap] = await Promise.all([
+        getDocs(
+          query(
+            collection(db, "teacherStudents"),
+            where("teacherId", "==", uid),
+            where("status", "==", "active")
+          )
+        ),
+        getDoc(doc(db, "teacherProfiles", uid)),
+        getDocs(
+          query(
+            collection(db, "lessonTypes"),
+            where("teacherId", "==", uid),
+            where("active", "==", true)
+          )
+        ),
+      ]);
       setStudentCount(studentSnap.size);
+      setStripeOnboarded(profileSnap.data()?.stripeOnboarded ?? false);
+      setLessonTypeCount(lessonTypeSnap.size);
 
       const now = new Date();
       const startOfDay = new Date(now);
@@ -144,6 +162,11 @@ export default function TeacherDashboard() {
 
   const firstName = userDoc?.displayName?.split(" ")[0] ?? "";
 
+  const hasLessonTypes = lessonTypeCount > 0;
+  const hasStripe = stripeOnboarded;
+  const hasStudents = studentCount > 0;
+  const setupComplete = hasLessonTypes && hasStripe && hasStudents;
+
   return (
     <div className="space-y-8">
       <FadeIn>
@@ -151,11 +174,49 @@ export default function TeacherDashboard() {
           <h1 className="font-serif text-2xl font-semibold">
             {firstName ? `Welcome back, ${firstName}` : "Welcome back"}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Here&apos;s what&apos;s happening in your studio.
-          </p>
+          <PageIntro>
+            Your studio at a glance. Track lessons, manage students, and see
+            what needs attention.
+          </PageIntro>
         </div>
       </FadeIn>
+
+      {!setupComplete && (
+        <FadeIn delay={0.1}>
+          <div className="space-y-3">
+            <h2 className="font-serif text-lg font-semibold">
+              Finish setting up your studio
+            </h2>
+            {!hasLessonTypes && (
+              <NextStepCard
+                title="Create a lesson type"
+                description="Define what you teach — name, duration, and price — so students can book."
+                to="/settings/lesson-types"
+                actionLabel="Add lesson type"
+                icon={<BookOpen className="h-5 w-5" />}
+              />
+            )}
+            {!hasStripe && (
+              <NextStepCard
+                title="Connect Stripe"
+                description="Link your Stripe account to accept payments and manage subscriptions."
+                to="/stripe/setup"
+                actionLabel="Connect Stripe"
+                icon={<CreditCard className="h-5 w-5" />}
+              />
+            )}
+            {!hasStudents && (
+              <NextStepCard
+                title="Invite your first student"
+                description="Send an invite so your students can book lessons and manage their schedule."
+                to="/students"
+                actionLabel="Invite student"
+                icon={<UserPlus className="h-5 w-5" />}
+              />
+            )}
+          </div>
+        </FadeIn>
+      )}
 
       <StaggerContainer className="grid gap-4 sm:grid-cols-3">
         <StaggerItem>
@@ -165,7 +226,13 @@ export default function TeacherDashboard() {
                 <Clock className="h-5 w-5 text-accent" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{todayLessonCount}</p>
+                {todayLessonCount > 0 ? (
+                  <p className="text-2xl font-bold">{todayLessonCount}</p>
+                ) : (
+                  <p className="text-sm font-medium text-muted-foreground">
+                    No lessons today
+                  </p>
+                )}
                 <p className="text-sm text-muted-foreground">Lessons today</p>
               </div>
             </CardContent>
@@ -178,7 +245,13 @@ export default function TeacherDashboard() {
                 <Calendar className="h-5 w-5 text-accent" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{weekLessonCount}</p>
+                {weekLessonCount > 0 ? (
+                  <p className="text-2xl font-bold">{weekLessonCount}</p>
+                ) : (
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Nothing scheduled
+                  </p>
+                )}
                 <p className="text-sm text-muted-foreground">This week</p>
               </div>
             </CardContent>
@@ -191,7 +264,13 @@ export default function TeacherDashboard() {
                 <Users className="h-5 w-5 text-accent" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{studentCount}</p>
+                {studentCount > 0 ? (
+                  <p className="text-2xl font-bold">{studentCount}</p>
+                ) : (
+                  <p className="text-sm font-medium text-muted-foreground">
+                    Invite students to start
+                  </p>
+                )}
                 <p className="text-sm text-muted-foreground">Active students</p>
               </div>
             </CardContent>
@@ -212,9 +291,22 @@ export default function TeacherDashboard() {
 
           {upcoming.length === 0 ? (
             <Card>
-              <CardContent className="flex flex-col items-center py-8 text-center">
-                <BookOpen className="h-8 w-8 text-muted-foreground/50" />
-                <p className="mt-3 text-sm text-muted-foreground">No upcoming lessons</p>
+              <CardContent className="py-2">
+                {studentCount === 0 ? (
+                  <EmptyState
+                    icon={<UserPlus className="h-5 w-5" />}
+                    title="No students yet"
+                    description="Invite students to start booking lessons and filling your schedule."
+                    action={{ label: "Invite a student", to: "/students" }}
+                  />
+                ) : (
+                  <EmptyState
+                    icon={<BookOpen className="h-5 w-5" />}
+                    title="No upcoming lessons"
+                    description="Your students can book through their portal, or you can schedule lessons directly."
+                    action={{ label: "View schedule", to: "/lessons" }}
+                  />
+                )}
               </CardContent>
             </Card>
           ) : (

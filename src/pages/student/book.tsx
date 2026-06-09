@@ -230,6 +230,7 @@ export default function BookPage() {
                 startTime={selectedTime}
                 timezone={timezone}
                 creditBalance={creditBalance}
+                teacherId={teacherId}
                 onConfirm={handleConfirm}
                 onBack={() => setStep(2)}
                 confirming={confirming}

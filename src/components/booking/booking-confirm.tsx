@@ -1,7 +1,8 @@
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Loader2 } from "lucide-react";
+import { CreditCard, Loader2 } from "lucide-react";
 import { formatTime, formatLongDate, formatDuration, formatTimezone, addMinutesToTime } from "@/lib/time-utils";
 import type { LessonType } from "@/types";
 
@@ -11,6 +12,7 @@ interface BookingConfirmProps {
   startTime: string;
   timezone: string;
   creditBalance: number;
+  teacherId: string;
   onConfirm: () => Promise<void>;
   onBack: () => void;
   confirming: boolean;
@@ -22,6 +24,7 @@ export function BookingConfirm({
   startTime,
   timezone,
   creditBalance,
+  teacherId,
   onConfirm,
   onBack,
   confirming,
@@ -83,10 +86,18 @@ export function BookingConfirm({
       </Card>
 
       {!sufficient && (
-        <Badge variant="destructive" className="w-full justify-center py-2">
-          You need {lessonType.creditCost - creditBalance} more credit
-          {lessonType.creditCost - creditBalance !== 1 ? "s" : ""} to book this lesson
-        </Badge>
+        <div className="space-y-3">
+          <Badge variant="destructive" className="w-full justify-center py-2">
+            You need {lessonType.creditCost - creditBalance} more credit
+            {lessonType.creditCost - creditBalance !== 1 ? "s" : ""} to book this lesson
+          </Badge>
+          <Button asChild variant="outline" className="w-full">
+            <Link to={`/credits/buy?teacher=${teacherId}`}>
+              <CreditCard className="mr-2 h-4 w-4" />
+              Buy Credits
+            </Link>
+          </Button>
+        </div>
       )}
 
       <div className="flex justify-between pt-2">

@@ -55,10 +55,13 @@ export default function StripeCallbackPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                Your Stripe account is set up and ready to accept payments.
+                Your Stripe account is set up and ready to accept payments. Next, create subscription plans or credit packs so students can purchase credits.
               </p>
               <Button onClick={() => navigate("/settings/pricing")} className="w-full">
-                Set Up Pricing
+                Configure Pricing
+              </Button>
+              <Button variant="outline" onClick={() => navigate("/dashboard")} className="w-full">
+                Back to Dashboard
               </Button>
             </CardContent>
           </Card>

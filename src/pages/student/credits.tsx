@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, CreditCard, Plus, Settings } from "lucide-react";
 import type { StudentCredits, TeacherStudent } from "@/types";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/animated";
+import { PageIntro } from "@/components/ux/page-intro";
 
 type CreditInfo = {
   creditDocId: string;
@@ -101,7 +102,8 @@ export default function CreditsPage() {
   return (
     <FadeIn>
       <div className="space-y-6">
-        <h1 className="text-2xl font-semibold font-serif">Credits</h1>
+        <h1 className="text-2xl font-semibold font-serif">Your Credits</h1>
+        <PageIntro>View your credit balance for each teacher and manage subscriptions.</PageIntro>
 
         <StaggerContainer className="space-y-4">
           {credits.map((c) => {

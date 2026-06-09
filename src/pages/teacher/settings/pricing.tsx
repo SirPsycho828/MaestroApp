@@ -11,6 +11,8 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 import app, { db } from "@/lib/firebase";
 import { useAuth } from "@/contexts/auth-context";
 import { FadeIn } from "@/components/ui/animated";
+import { ConfirmDialog } from "@/components/ux/confirm-dialog";
+import { PageIntro } from "@/components/ux/page-intro";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -38,6 +40,7 @@ import {
   ExternalLink,
   CheckCircle,
   Pencil,
+  ShieldCheck,
 } from "lucide-react";
 import type { SubscriptionPlan, CreditPack } from "@/types";
 
@@ -57,6 +60,8 @@ export default function PricingPage() {
   const [editingPlan, setEditingPlan] = useState<PlanWithId | null>(null);
   const [editingPack, setEditingPack] = useState<PackWithId | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [planToggleConfirm, setPlanToggleConfirm] = useState<{ open: boolean; plan?: PlanWithId }>({ open: false });
+  const [packToggleConfirm, setPackToggleConfirm] = useState<{ open: boolean; pack?: PackWithId }>({ open: false });
 
   const [planName, setPlanName] = useState("");
   const [planCredits, setPlanCredits] = useState("");
@@ -219,16 +224,26 @@ export default function PricingPage() {
           <CardHeader>
             <CreditCard className="mx-auto h-12 w-12 text-muted-foreground" />
             <CardTitle>Connect Stripe to Set Pricing</CardTitle>
-            <CardDescription>
-              You need a Stripe account to create subscription plans and credit packs.
-              Students will pay through Stripe — you receive payouts directly.
+            <CardDescription className="mx-auto max-w-md space-y-2">
+              <span className="block">
+                Stripe handles all payments securely so you never touch card details. Students
+                pay through Stripe and you receive payouts directly to your bank account.
+              </span>
+              <span className="block">
+                Once connected, you can create subscription plans for recurring students and
+                credit packs for drop-in bookings.
+              </span>
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-3">
             <Button onClick={() => (window.location.href = "/stripe/setup")}>
               <ExternalLink className="mr-2 h-4 w-4" />
               Connect with Stripe
             </Button>
+            <p className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
+              <ShieldCheck className="h-3 w-3" />
+              Free to connect — Stripe only charges per transaction
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -245,6 +260,13 @@ export default function PricingPage() {
           Stripe Connected
         </Badge>
       </div>
+
+      <PageIntro>
+        <strong>Subscription plans</strong> charge students monthly and grant a set number of
+        credits each billing cycle — ideal for regulars.{" "}
+        <strong>Credit packs</strong> are one-time purchases that add credits to a student's
+        balance — great for drop-in or trial students. Mix both to give students flexibility.
+      </PageIntro>
 
       <section className="space-y-4">
         <div className="flex items-center justify-between">
@@ -274,7 +296,7 @@ export default function PricingPage() {
                     <CardTitle className="text-base">{plan.name}</CardTitle>
                     <Switch
                       checked={plan.active}
-                      onCheckedChange={() => togglePlanActive(plan)}
+                      onCheckedChange={() => setPlanToggleConfirm({ open: true, plan })}
                     />
                   </div>
                 </CardHeader>
@@ -331,7 +353,7 @@ export default function PricingPage() {
                     <CardTitle className="text-base">{pack.name}</CardTitle>
                     <Switch
                       checked={pack.active}
-                      onCheckedChange={() => togglePackActive(pack)}
+                      onCheckedChange={() => setPackToggleConfirm({ open: true, pack })}
                     />
                   </div>
                 </CardHeader>
@@ -448,6 +470,40 @@ export default function PricingPage() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <ConfirmDialog
+        open={planToggleConfirm.open}
+        onOpenChange={(open) => setPlanToggleConfirm({ ...planToggleConfirm, open })}
+        title={planToggleConfirm.plan?.active ? "Deactivate plan?" : "Activate plan?"}
+        description={
+          planToggleConfirm.plan?.active
+            ? "New students won't be able to subscribe to this plan. Existing subscribers are not affected."
+            : "This plan will become available for new student subscriptions."
+        }
+        confirmLabel={planToggleConfirm.plan?.active ? "Deactivate" : "Activate"}
+        variant={planToggleConfirm.plan?.active ? "destructive" : "default"}
+        onConfirm={() => {
+          togglePlanActive(planToggleConfirm.plan!);
+          setPlanToggleConfirm({ open: false });
+        }}
+      />
+
+      <ConfirmDialog
+        open={packToggleConfirm.open}
+        onOpenChange={(open) => setPackToggleConfirm({ ...packToggleConfirm, open })}
+        title={packToggleConfirm.pack?.active ? "Deactivate credit pack?" : "Activate credit pack?"}
+        description={
+          packToggleConfirm.pack?.active
+            ? "Students won't be able to purchase this credit pack while it's inactive."
+            : "This credit pack will become available for students to purchase."
+        }
+        confirmLabel={packToggleConfirm.pack?.active ? "Deactivate" : "Activate"}
+        variant={packToggleConfirm.pack?.active ? "destructive" : "default"}
+        onConfirm={() => {
+          togglePackActive(packToggleConfirm.pack!);
+          setPackToggleConfirm({ open: false });
+        }}
+      />
     </div>
     </FadeIn>
   );
