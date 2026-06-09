@@ -217,9 +217,29 @@ Gaps:
 
 **Resolved:** 24 of 30 findings (80%)
 **Deferred:** 6 findings (rationale below)
-**New components:** 7 shared UX components in `src/components/ux/`
-**Files modified:** 16
+**New components:** 7 shared UX components in `src/components/ux/` + 1 tour tooltip in `src/components/tour/`
+**Files modified:** 26
 **TypeScript errors:** 0 (clean build)
+
+### Onboarding (Phase 6)
+
+**Setup Wizard Enhancements:**
+- Welcome step with branding, description, estimated time, and skip link
+- Done step with confetti celebration, creation summary, and dual CTAs (Dashboard / Connect Stripe)
+- 5-step progress indicator (Welcome, Profile, Lessons, Availability, Done)
+- Done step triggers site tour auto-start via localStorage flag
+
+**Site Tour (React Joyride v3):**
+- 7-stop guided tour: Dashboard, Students, Availability, Lessons, Lesson Types, Pricing, Settings
+- Custom tooltip component matching Acoustic design system (font-serif titles, Card styling, step counter)
+- Auto-starts after wizard completion (800ms delay for DOM render)
+- Skippable at any point, completion persisted to localStorage
+
+**Settings Integration:**
+- New `/settings` route with "Onboarding" section
+- "Restart Setup Wizard" button — navigates to `/setup`
+- "Replay App Tour" button — starts tour and navigates to dashboard
+- Settings link added to teacher sidebar with `data-tour` attribute
 
 ### Shared UX Component Library
 
@@ -238,18 +258,20 @@ Gaps:
 | Page | Before | After | Delta |
 |------|:------:|:-----:|:-----:|
 | Teacher Dashboard | 0/9 | 8/9 | +8 |
+| Teacher Setup | 4.5/6 | 6/6 | +1.5 |
 | Teacher Availability | 0/9 | 5.5/9 | +5.5 |
 | Teacher Schedule | 1/9 | 5.5/9 | +4.5 |
 | Lesson Types | 1/7 | 4/7 | +3 |
 | Locations | 1/7 | 4.5/7 | +3.5 |
 | Pricing | 0/9 | 4.5/9 | +4.5 |
+| Teacher Settings | -/- | 5/5 | new |
 | Student Home | 0/9 | 2.5/9 | +2.5 |
 | Student Book | 3/9 | 5.5/9 | +2.5 |
 | Student Credits | 3.5/6 | 4.5/6 | +1 |
 | Credits Buy | 4/7 | 5.5/7 | +1.5 |
 | Teacher Students | 2/9 | 4.5/9 | +2.5 |
 | Stripe Callback | 3.5/5 | 5/5 | +1.5 |
-| **Average** | **1.6/8.0** | **4.9/8.0** | **+3.3** |
+| **Average** | **1.6** | **5.1** | **+3.5** |
 
 ### Workflow Status After
 
