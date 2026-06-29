@@ -14,7 +14,7 @@ const TOUR_COMPLETED_KEY = "tunefolio-tour-completed";
 
 const stepDefaults = {
   skipBeacon: true,
-  buttons: ["back", "skip", "primary"] as const,
+  buttons: ["back", "skip", "primary"] as ("back" | "skip" | "primary")[],
 };
 
 const tourSteps: Step[] = [
@@ -117,7 +117,7 @@ export function TourProvider({ children }: { children: ReactNode }) {
         continuous
         onEvent={handleEvent}
         tooltipComponent={TourTooltip}
-        styles={{ options: { zIndex: 10000 } }}
+        styles={{ overlay: { zIndex: 10000 } }}
       />
     </TourContext.Provider>
   );
