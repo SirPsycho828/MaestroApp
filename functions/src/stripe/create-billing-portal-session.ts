@@ -2,6 +2,7 @@ import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStripe } from "./stripe-client";
+import { validateBaseUrl } from "../utils/validate-base-url";
 
 const stripeSecretKey = defineSecret("STRIPE_SECRET_KEY");
 
@@ -15,10 +16,11 @@ export const createBillingPortalSession = onCall(
       throw new HttpsError("permission-denied", "Students only");
     }
 
-    const { teacherId, baseUrl } = request.data ?? {};
-    if (!teacherId || !baseUrl) {
+    const { teacherId, baseUrl: rawBaseUrl } = request.data ?? {};
+    if (!teacherId || !rawBaseUrl) {
       throw new HttpsError("invalid-argument", "teacherId and baseUrl are required");
     }
+    const baseUrl = validateBaseUrl(rawBaseUrl);
 
     const db = getFirestore();
     const uid = request.auth.uid;

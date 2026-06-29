@@ -26,5 +26,13 @@ dist-ssr
 *.sln
 *.sw?
 
+# Environment files
+.env
+.env.local
+.env.production
+
+# Windows
+Thumbs.db
+
 # Cloud Functions compiled output
 functions/lib
